@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<%- include('partials/head') %>
+  <body>
+    <div class="container-fluid">
+      <%- include('partials/nav_bar') %>
+      <h1 class="my-4 display-4">Search</h1>
+      <h3> Some instructions with regards to what you can do on this site.
+        Let's try to make it idiot proof</h3>
+        <hr class="my-5">
+        <div class="jumbotron">
+            <h2>I would like to...</h2>
+            <%- include('partials/filter') %>
+            <%- include('partials/upload') %>
+        </div>
+    </div>
+  </body>
+<%- include('partials/footer') %>
+</html>
