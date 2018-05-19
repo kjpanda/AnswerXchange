@@ -1,0 +1,13 @@
+<!-- Homepage for the user -->
+<!DOCTYPE html>
+<html>
+<%- include('partials/head') %>
+  <body>
+    <div class="container-fluid">
+      <%- include('partials/navBar') %>
+      <h2> <% user.name %> </h2>
+      <%- include('partials/usersFavourite') %>
+    </div>
+  </body>
+<%- include('partials/footer') %>
+</html>

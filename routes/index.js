@@ -6,9 +6,16 @@ router.get('/', function(req, res, next) {
   res.render('login', { user:"" });
 });
 
-router.get('/search', function(req, res, next) {
-  res.render('search', { user:"Darren" })
+router.post('/', function(req, res) {
+  res.send('Search function not implemented.');
 });
 
+router.get('/search', function(req, res, next) {
+  res.render('search', { user:"Darren" });
+});
+
+router.post('/search', function(req, res) {
+  res.send('Search function not implemented.');
+});
 
 module.exports = router;
