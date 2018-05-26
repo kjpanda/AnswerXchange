@@ -9,7 +9,6 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-/*
 var mongoDB = "mongodb://d4rr3n:Cl%40irvoyance1@ds259119.mlab.com:59119/xchange"
 var mongoose = require('mongoose');
 //Connect to the mongoose object
@@ -18,7 +17,6 @@ mongoose.Promise = global.Promise;
 //Get a variable that links to the database
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongoDB connection error:"));
-*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
