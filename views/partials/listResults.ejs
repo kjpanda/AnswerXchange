@@ -1,19 +1,2 @@
 <!-- views/partials/listResults.ejs -->
 <!-- Needs to be rendered with results{code ,sem, questions} -->
-
-<div>
-  <% if (results.questions.length == 0) { %>
-    <h4 class="mx-auto">We do not have the questions. Why don't you
-      upload it <a href="../upload.ejs">here!</a></h4>
-  <% } else { %>
-    <% for (var i = 0; i < reults.questions.length; i++) { %>
-      <div class="border border-success rounded p4">
-        <h3 class="my-2"><a href= "../question/" + <% results.qeustions[i].id %>>
-          <% results.questions[i].title %></h3>
-          <p class="my-2" >
-            <% results.questions[i].text.substring(0, 50) %>
-          </p>
-      </div>
-    <% } %>
-  <% } %>
-</div>
