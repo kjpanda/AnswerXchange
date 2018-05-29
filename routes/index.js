@@ -12,6 +12,12 @@ router.get('/', user_controller.user_login_get);
 /* User login */
 router.post('/', user_controller.user_login_post);
 
+/* GET signup page */
+router.get('/signup', user_controller.user_create_get);
+
+/* Post request to create a user account */
+router.post('/signup', user_controller.user_create_post)
+
 /* The user goes to the search page */
 router.get('/search', question_controller.search_get);
 
