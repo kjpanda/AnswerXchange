@@ -15,7 +15,7 @@ var UserSchema = new Schema({
 
 //Virtual to get the url for the user page
 UserSchema.virtual("url").get(function() {
-  return "/user/" + this.id;
+  return "/user/" + this._id;
 });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -17,7 +17,7 @@ var QuestionSchema = new Schema({
 
 //Virtual to get the url for this question
 QuestionSchema.virtual("url").get(function() {
-  return "/question/" + this.id;
+  return "/question/" + this._id;
 });
 
 module.exports = mongoose.model("Question", QuestionSchema);

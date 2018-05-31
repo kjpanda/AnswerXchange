@@ -12,7 +12,7 @@
           <div class="form-group ">
               <label for="code">Module Code:</label>
               <input type="text" class="form-control" id="code"
-                  name="code">
+                  name="code" required=true>
           </div>
           <div class="form-group">
             <label for="semester">Semester:</label>
@@ -20,13 +20,15 @@
               <option>16/17 Semester 1</option>
               <option>16/17 Semester 2</option>
               <option>17/18 Semester 1</option>
-              <option>17/18 Semester 2</option>
+              <option selected>17/18 Semester 2</option>
           </div>
           <div class="form-group">
             <label for="question">Question text: </label>
             <textarea class="form-control my-4" rows="7" id="question"
-                name="question" placeholder="Your question here"></textarea>
+                name="question" placeholder="Your question here" required=true></textarea>
           </div>
+          <input class="form-control" hidden=true value=user._id name="user"
+            id="user">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
