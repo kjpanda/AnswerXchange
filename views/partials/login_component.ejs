@@ -15,6 +15,11 @@
         <small class="form-text"><a href="/signup">Don't have an account?</small>
       </div>
     </div>
+    <% if (locals.errors) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= errors %>
+      </div>
+    <% } %>
       <button type="submit" class="btn btn-primary">Login</button>
   </div>
 </form>

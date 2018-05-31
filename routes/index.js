@@ -31,9 +31,9 @@ router.get('/question/:id', answer_controller.answer_list_get);
 router.post('/question/:id', answer_controller.answer_create_post);
 
 /* Get request for the page to upload a question */
-router.get('/question/upload', question_controller.question_create_get);
+router.get('/question_upload', question_controller.question_create_get);
 
 /* POST request to upload a question */
-router.post('/question/upload', question_controller.question_create_post);
+router.post('/question_upload', question_controller.question_create_post);
 
 module.exports = router;

@@ -3,7 +3,7 @@ var async = require('async');
 
 /* Gives the user the search page */
 exports.search_get = function(req, res, next) {
-  res.render('search', { user:"Darren" });
+  res.render('search', { user: req.body.user });
 }
 
 /* Search request for the question send by the user */
@@ -13,7 +13,7 @@ exports.search_post = function(req, res, next) {
 
 /* User gets the page to upload a question */
 exports.question_create_get = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: QUESTION_CREATE_GET');
+  res.render('question_upload', {user: req.body.user});
 }
 
 /* Processing of a question sent by the user */

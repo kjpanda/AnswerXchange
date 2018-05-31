@@ -12,7 +12,7 @@ var QuestionSchema = new Schema({
   //Module code for the question
   moduleCode: {type: String},
   //Semester that this question is from
-  semester: {type: Number},
+  semester: {type: String, required: true},
 });
 
 //Virtual to get the url for this question
