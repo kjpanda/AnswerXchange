@@ -8,7 +8,7 @@ var QuestionSchema = new Schema({
   //The number of replies to this question
   replies: {type: Number, required: true},
   //The user ID for the question
-  user: {type: Schema.ObjectId, ref: "User", required: true},
+  user: {type: Schema.ObjectId, ref: "User", /*required: true*/},
   //Module code for the question
   moduleCode: {type: String},
   //Semester that this question is from

@@ -25,7 +25,7 @@ router.get('/search', question_controller.search_get);
 router.post('/search', question_controller.search_post);
 
 /* Get the answer for the current question */
-router.get('/question/:id', answer_controller.answer_list_get);
+router.get('/question/:id', question_controller.question_detail_get);
 
 /* POST request from a question page, a user has gave an answer */
 router.post('/question/:id', answer_controller.answer_create_post);

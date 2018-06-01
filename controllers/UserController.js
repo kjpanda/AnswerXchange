@@ -19,7 +19,7 @@ exports.user_login_post = function(req, res, next) {
     },
   }, function(err, results) {
     //If we cannot find the Username
-    if (err || results.user==undefined) {
+    if (err || results.user==null) {
       console.log("User not found");
       res.render('login', {errors:"The username or password does not match."});
     }
@@ -52,7 +52,7 @@ exports.user_create_post =[
 
     //If there is an error we go back to the sign up page
     if (!errors.isEmpty()) {
-      res.render('signup', {user:"", errors: errors.array()})
+      res.render('signup', {errors: errors.array()})
       return;
     } else {
       //Data is valid, create a new user

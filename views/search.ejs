@@ -9,7 +9,13 @@
         Let's try to make it idiot proof</h3>
         <hr class="my-5">
         <div class="jumbotron">
-            <%- include('partials/filter') %>
+          <%- include('partials/error_message') %>
+          <form action="" method="post">
+            <div class = "border border-success rounded p-4 text-muted">
+              <%- include('partials/filter_bars') %>
+              <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+          </form>
         </div>
     </div>
   </body>

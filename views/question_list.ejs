@@ -1,3 +1,4 @@
+<!-- questions, code, semester -->
 <!DOCTYPE html>
 <html>
 <%- include('partials/head') %>
@@ -5,11 +6,19 @@
     <div class="container-fluid">
       <%- include('partials/navBar') %>
     </div>
-    <h4><h4>
-    <% for each question in questions { %>
-      <div class="">
-      <div>
+    <h1 class="display-2">Search Results</h1>
+    <h4 class = "my-2">Search module: <%= code %>,  Search semester: <%= semester %><h4>
+    <hr class="my-4">
+    <div class="border border-success rounded p-4 my-2 text-muted">
+    <% for (let question of questions) { %>
+      <a href=<%= question.url %>>
+        <div class="border rounded view overlay p-2 my-2">
+          <small>By Darren</small>
+          <p class = "my-4"><%= question.question %></p>
+        </div>
+      </a>
     <% } %>
+    </div>
   </body>
 <%- include('partials/footer') %>
 </html>
