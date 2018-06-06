@@ -69,7 +69,7 @@ exports.question_create_post = [
         if (err) {
           return next(err);
         }
-        res.render('question_upload');
+        res.redirect(question.url);
       });
     }
   }
@@ -99,4 +99,13 @@ exports.question_detail_get = function(req, res, next) {
       //Successfully get the question, render the page
       res.render('question_detail', {question: results.question, answers: results.answers});
   });
+}
+
+/* Delete a question */
+exports.question_delete_get = function(req, res) {
+  res.send("NOT IMPLEMENTED: QUESTION_DELETE_GET");
+}
+
+exports.question_delete_post = function(req, res) {
+  res.send("NOT IMPLEMENTED: QUESTION_DELETE_POST");
 }
