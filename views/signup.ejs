@@ -5,6 +5,10 @@
     <div class="container-fluid">
       <%- include('partials/navBar') %>
       <h1 class="display-2">Sign-Up</h1>
+      <!-- Show any messages that came back with the authentication -->
+      <% if (message.length > 0) { %>
+          <div class="alert alert-danger"><%= message %></div>
+      <% } %>
       <form action="" method="post">
         <div class="border border-success rounded p-4">
           <div class="form-group">

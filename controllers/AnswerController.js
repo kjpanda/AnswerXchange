@@ -1,5 +1,6 @@
 var Answer = require('../models/Answer.js');
-var Question = require('../models/Question.js')
+var Question = require('../models/Question.js');
+var User = require('../models/User.js');
 var async = require('async');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -13,7 +14,8 @@ exports.answer_create_post = [
 
     var answer = new Answer({
       answer: req.body.answer,
-      user: null,
+      userName: req.user.username,
+      userID: req.user,
       date: Date.now(),
       question: req.params.id,
     });
@@ -28,6 +30,9 @@ exports.answer_create_post = [
         answers: function(callback) {
           Answer.find({'question' : req.params.id})
               .exec(callback);
+        },
+        questionUser: function(callback) {
+          User.findById(req.body.questionUser).exec(callback);
         }
       }, function(err, results) {
           if (err) {
@@ -40,9 +45,11 @@ exports.answer_create_post = [
             return next(err);
           }
           //Successfully get the question, render the page
-          console.log("Error");
-          res.render('question_detail', {question: results.question, answers: results.answers,
-              errors: errors.array()});
+          console.log("Error in answer");
+
+          res.render('question_detail', { user : req.user,
+              question: results.question, questionUser: results.questionUser,
+              answers: results.answers, errors: errors.array() });
       });
     } else {
       answer.save(function(err) {
@@ -57,7 +64,10 @@ exports.answer_create_post = [
           answers: function(callback) {
             Answer.find({'question' : req.params.id})
                 .exec(callback);
-          }
+          },
+          questionUser: function(callback) {
+            User.findById(req.body.questionUser).exec(callback);
+          },
         }, function(err, results) {
             if (err) {
               return next(err);
@@ -69,8 +79,10 @@ exports.answer_create_post = [
               return next(err);
             }
             //Successfully get the question, render the page
-            console.log("Successful request");
-            res.render('question_detail', {question: results.question, answers: results.answers});
+            console.log("Successfully answered");
+            res.render('question_detail', { user: req.user,
+                question: results.question, questionUser: results.questionUser,
+                answers: results.answers});
         });
       })
     }

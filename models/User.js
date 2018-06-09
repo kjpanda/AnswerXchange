@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var bcrypt = require('bcrypt-nodejs');
 
 var Schema = mongoose.Schema;
 
@@ -12,6 +13,16 @@ var UserSchema = new Schema({
   //The major for the individual, used for personalisation
   major: {type: String},
 });
+
+//Methods to generate a hash
+UserSchema.methods.generateHash = function (password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+//Check if the password is valid
+UserSchema.methods.validPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 //Virtual to get the url for the user page
 UserSchema.virtual("url").get(function() {

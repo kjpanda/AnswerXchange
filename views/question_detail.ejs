@@ -4,14 +4,15 @@
   <body>
     <div class="container-fluid">
       <%- include('partials/navBar') %>
-      <h1 class="display-4"> Question: <%= question.question %></h1>
+      <h2 class="display-2"> Question: <%= question.question %></h2>
+      <small>Question by <%= questionUser.username %></small>
       <hr class="my-4">
       <div class="jumbotron">
         <h3>Replies</h3>
         <% if (locals.answers.length > 0) { %>
           <% for (let answer of answers) { %>
             <div class="my-4 p-2 border border-success rounded">
-              <p>By Darren answered at <%= answer.date %></p>
+              <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
               <p><%= answer.answer %></p>
             </div>
           <% } %>
@@ -30,6 +31,8 @@
               id="answer" name="answer" required=true placeholder="Your answer here"></textarea>
           <input class="form-control" type="hidden" name="question"
               required="true" value=question._id>
+          <input class="form-control" type="hidden" name="questionUser"
+              required="true" value=<%= questionUser._id %>>
         </div>
         <button class="btn btn-primary" type="submit">Submit</button>
       </form>

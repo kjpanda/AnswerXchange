@@ -6,11 +6,11 @@ const { sanitizeBody } = require('express-validator/filter');
 /* Gets the intitial page of the website, login page if the user
   has not logged in else it will be the user's home page*/
 exports.user_login_get = function(req, res, next) {
-  res.render('login');
+  res.render('login', {message: req.flash('loginMessage')});
 }
 
 /* Processing of the user's login */
-exports.user_login_post = function(req, res, next) {
+/*exports.user_login_post = function(req, res, next) {
   //Search through my database for the username given
   async.parallel({
     user: function(callback) {
@@ -26,14 +26,14 @@ exports.user_login_post = function(req, res, next) {
       //For now we go to search place
       res.render('search', {user: results.user});
   });
-}
+}*/
 
 /* Getting the signup page initially */
 exports.user_create_get = function(req, res, next) {
-  res.render('signup', {user:""});
+  res.render('signup', {message: req.flash('signupMessage')});
 }
 
-exports.user_create_post =[
+/*exports.user_create_post =[
   body('username').isLength({min:8, max:24})
       .trim().withMessage("Username must be between 8 to 24 characters long.")
       .isAlphanumeric().withMessage("Username has non-alphanumeric characters."),
@@ -70,4 +70,4 @@ exports.user_create_post =[
       });
     }
   }
-];
+];*/

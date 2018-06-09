@@ -8,8 +8,9 @@ var Schema = mongoose.Schema
 var AnswerSchema = new Schema ({
     //answer string
     answer: {type: String, required: true},
+    userName: {type: String, required: true},
     //userID of the user that posts the question
-    user: {type: Schema.ObjectId, ref: "User"},
+    userID: {type: Schema.ObjectId, ref: "User"},
     //Time when the answer is given
     date: {type: Date, required: true},
     //The question id that this answer is from

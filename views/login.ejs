@@ -8,8 +8,12 @@
         <div class="jumbotron">
           <h1 class="display-3">WELCOME!</h1>
             <h3>This is some description as to what the app is about
-              bla bla bla. I am happy!!</h3>
+              bla bla bla. I am sad??</h3>
             <hr class= "my-5">
+            <!-- Show any messages that came back with the authentication -->
+            <% if (message.length > 0) { %>
+              <div class="alert alert-danger"><%= message %></div>
+            <% } %>
           <%- include('partials/login_component.ejs') %>
         </div>
     </div>
