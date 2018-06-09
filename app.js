@@ -12,7 +12,7 @@ var session = require('express-session');
 
 var app = express();
 
-var mongoDB = "mongodb://d4rr3n:Cl%40irvoyance1@ds259119.mlab.com:59119/xchange"
+var mongoDB = "mongodb://:@ds259119.mlab.com:59119/xchange"
 
 //Connect to the mongoose object
 mongoose.connect(mongoDB);
