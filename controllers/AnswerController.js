@@ -31,9 +31,6 @@ exports.answer_create_post = [
           Answer.find({'question' : req.params.id})
               .exec(callback);
         },
-        questionUser: function(callback) {
-          User.findById(req.body.questionUser).exec(callback);
-        }
       }, function(err, results) {
           if (err) {
             return next(err);
@@ -48,8 +45,8 @@ exports.answer_create_post = [
           console.log("Error in answer");
 
           res.render('question_detail', { user : req.user,
-              question: results.question, questionUser: results.questionUser,
-              answers: results.answers, errors: errors.array() });
+              question: results.question, answers: results.answers,
+              errors: errors.array() });
       });
     } else {
       answer.save(function(err) {
@@ -65,9 +62,6 @@ exports.answer_create_post = [
             Answer.find({'question' : req.params.id})
                 .exec(callback);
           },
-          questionUser: function(callback) {
-            User.findById(req.body.questionUser).exec(callback);
-          },
         }, function(err, results) {
             if (err) {
               return next(err);
@@ -81,8 +75,7 @@ exports.answer_create_post = [
             //Successfully get the question, render the page
             console.log("Successfully answered");
             res.render('question_detail', { user: req.user,
-                question: results.question, questionUser: results.questionUser,
-                answers: results.answers});
+                question: results.question, answers: results.answers});
         });
       })
     }

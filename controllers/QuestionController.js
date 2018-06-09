@@ -61,7 +61,8 @@ exports.question_create_post = [
       var question = new Question({
         question: req.body.question,
         replies: 0,
-        user: req.user,
+        userID: req.user,
+        userName: req.user.username,
         moduleCode: req.body.code,
         semester: req.body.semester,
       });
@@ -99,21 +100,11 @@ exports.question_detail_get = function(req, res, next) {
         return next(err);
       }
 
-      //Run another async function to get the actual user for the question
-      async.parallel({
-        questionUser: function (callback) {
-          User.findById(results.question.user).exec(callback);
-        },
-      }, function(err, userResult) {
-        if (err) {
-          return next(err);
-        }
-        /* The user should exist */
-        //Successfully get the question, render the page
-        res.render('question_detail', { user: req.user, question: results.question,
-           questionUser: userResult.questionUser, answers: results.answers});
-        });
-  });
+      /* The user should exist */
+      //Successfully get the question, render the page
+      res.render('question_detail', { user: req.user, question: results.question,
+          answers: results.answers});
+      });
 }
 
 /* Delete a question */
