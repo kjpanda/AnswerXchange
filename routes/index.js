@@ -9,12 +9,12 @@ var user_controller = require('../controllers/UserController.js');
 module.exports = function(passport) {
   var router = express.Router();
 
-  /* GET home page. */
+  /* GET login page. */
   router.get('/', user_controller.user_login_get);
 
   /* User login */
   router.post('/', passport.authenticate('local-login', {
-    successRedirect: '/search',
+    successRedirect: '/home',
     failureRedirect: '/',
     failureFlash: true,
   }));
@@ -28,6 +28,12 @@ module.exports = function(passport) {
     failureRedirect: '/signup',
     failureFlash: true,
   }));
+
+  /* GET user details */
+  router.get('/home', isLoggedIn, user_controller.user_get);
+
+  /* GET home page. */
+  router.get('/home', isLoggedIn, user_controller.user_home_get);
 
   /* The user goes to the search page */
   router.get('/search', isLoggedIn, question_controller.search_get);
