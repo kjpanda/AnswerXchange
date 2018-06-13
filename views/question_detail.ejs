@@ -27,8 +27,7 @@
       <form action="" method="post">
         <div class="form-group">
           <label for="answer">Your answer:</label>
-          <textarea class="form-control" type="textarea my-4" rows="7"
-              id="answer" name="answer" required=true placeholder="Your answer here"></textarea>
+          <%- include('partials/quill-textArea') %>
           <input class="form-control" type="hidden" name="question"
               required="true" value=question._id>
         </div>

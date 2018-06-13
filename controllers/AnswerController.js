@@ -7,13 +7,13 @@ const { sanitizeBody } = require('express-validator/filter');
 
 /* Processes the uploading and creation of an answer */
 exports.answer_create_post = [
-  body("answer").isLength({min: 1}).trim().withMessage("Answer field is empty."),
+  body("text").isLength({min: 1}).trim().withMessage("Answer field is empty."),
 
   (req, res, next) => {
     const errors = validationResult(req);
 
     var answer = new Answer({
-      answer: req.body.answer,
+      answer: req.body.text,
       userName: req.user.username,
       userID: req.user,
       date: Date.now(),
