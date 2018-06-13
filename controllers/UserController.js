@@ -9,6 +9,17 @@ exports.user_login_get = function(req, res, next) {
   res.render('login', {message: req.flash('loginMessage')});
 }
 
+/* Getting the home page when user is logged in */
+exports.user_home_get = function(req, res, next) {
+  res.render('home', {message: req.flash('homeMessage')});
+}
+
+/* Get user details */
+exports.user_get = function(req, res, next) {
+  res.render('home', { username: req.user.username, email: req.user.email,
+    major: req.user.major});
+}
+
 /* Processing of the user's login */
 /*exports.user_login_post = function(req, res, next) {
   //Search through my database for the username given

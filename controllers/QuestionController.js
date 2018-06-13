@@ -96,7 +96,7 @@ exports.question_detail_get = function(req, res, next) {
       //If we cannot find the question
       if (results.question==null) {
         var err = new Error('Question not found');
-        err.staus = 404;
+        err.status = 404;
         return next(err);
       }
 
