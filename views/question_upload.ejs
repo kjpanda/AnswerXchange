@@ -12,8 +12,7 @@
           <%- include('partials/filter_bars') %>
           <div class="form-group">
             <label for="question">Question text: </label>
-            <textarea class="form-control my-4" rows="7" id="question"
-                name="question" placeholder="Your question here" required=true></textarea>
+            <%- include('partials/quill-textArea') %>
           </div>
           <input class="form-control" hidden=true value=user._id name="user"
             id="user">

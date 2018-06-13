@@ -41,7 +41,7 @@ exports.question_create_get = function(req, res, next) {
 
 /* Processing of a question sent by the user */
 exports.question_create_post = [
-  body('question').isLength({min:1})
+  body('text').isLength({min:1})
       .trim().withMessage("Question field is empty"),
   body('code').matches(/[A-Z]{2}[0-9]{4}/)
       .trim().withMessage("Invalid Module code"),
@@ -59,7 +59,7 @@ exports.question_create_post = [
       //Look through the question database and check if there is one with the
       //exact same question
       var question = new Question({
-        question: req.body.question,
+        question: req.body.text,
         replies: 0,
         userID: req.user,
         userName: req.user.username,
