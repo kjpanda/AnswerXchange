@@ -29,9 +29,6 @@ module.exports = function(passport) {
     failureFlash: true,
   }));
 
-  /* GET user details */
-  router.get('/home', isLoggedIn, user_controller.user_get);
-
   /* GET home page. */
   router.get('/home', isLoggedIn, user_controller.user_home_get);
 

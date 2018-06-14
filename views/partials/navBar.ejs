@@ -9,8 +9,8 @@
 
   <div class="collapse navbar-collapse" id="navbar">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="/home" >Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/search">Search</a>
@@ -21,8 +21,60 @@
     </ul>
     <span class= "mx-2 lead">
       <% if (locals.user) { %>
-        Welcome, <%= user.username %>
-      <% }%>
+        <div class="dropdown">
+          <button class="btn dropbtn" type="button"
+              data-toggle="dropdown"><%= user.username %>
+          <span class="caret"></span></button>
+          <ul class="dropdown-content list-unstyled">
+            <li><a class="dropdown-item" href="#">logout</a></li>
+          </ul>
+        </div>
+      <% } %>
     </span>
   </div>
 </nav>
+
+<style>
+/* Dropdown Button */
+.dropbtn {
+  color: white;
+  background-color: #4CAF50;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  display: block;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>

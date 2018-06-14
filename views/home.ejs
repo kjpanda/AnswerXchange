@@ -10,36 +10,14 @@
       <hr class="my-5">
       <div class="jumbotron">
         <%- include('partials/error_message') %>
-        <form action="" method="Recent-posts">
           <div class = "border border-success rounded p-4 text-muted">
             <%- include('partials/recentposts') %>
-          </div>
-        </form>
-          <!-- Side navigation -->
-          <div class= "user_details">
-            <h3> Hello <%= username %> </h3>
-            <h5> Email: <%= email %> </h5>
-            <h5> Major: <%= major %> </h5>
           </div>
       </div>
     </div>
   </body>
 
-  <style>
-  .user_details {
-    height: 20%;
-    width: 300px;
-    position: fixed;
-    top: 300px;
-    right: 20px;
-    background-color: #E8EFF1;
-    overflow-x: hidden;
-  }
 
-  .jumbotron {
-    width: 85%;
-  }
-  </style>
-  
+
 <%- include('partials/footer') %>
 </html>
