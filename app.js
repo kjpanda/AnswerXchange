@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/public', express.static(__dirname + "/public"));
 
 //Pass the passport for configuration
 require('./config/passport')(passport);

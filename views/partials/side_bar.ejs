@@ -1,18 +1,33 @@
 <!-- Side navigation -->
 <div class= "user_details">
-  <h3> Hello <%= user.username %> </h3>
+      <img src="../public/images/icon-user-default.png" class="profile my-2"
+          alt="User photo">
+  <h3 align="middle"> User details </h3>
+  <h5> Name: <%= user.username %></h5>
   <h5> Email: <%= user.email %> </h5>
   <h5> Major: <%= user.major %> </h5>
 </div>
 
 <style>
+.profile {
+  border-radius: 50%;
+  height: 140px;
+}
+
 .user_details {
-  height: 20%;
-  width: 300px;
-  position: fixed;
-  top: 300px;
-  right: 20px;
-  background-color: #E8EFF1;
-  overflow-x: hidden;
+  margin-top: 7%;/* Initial buffer to seperate from the navbar */
+  margin-left: 1%;
+  width:18%;
+  height: 80%;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: rgba(200, 200, 200, 0.8); /* Green */
+  border: black 2px dashed;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 3em; /* Place content 60px from the top */
+  border-radius: 5%;
+  text-align: center;
 }
 </style>

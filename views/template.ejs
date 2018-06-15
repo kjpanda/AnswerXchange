@@ -1,11 +1,16 @@
 <!-- Dummy template for the basic page -->
 <!DOCTYPE html>
 <html>
-<%- include('partials/head') %>
+  <%- include('partials/head') %>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <%- include('partials/navBar') %>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-8"></div>
+        <div class="col"></div>
+      </div>
     </div>
+    <%- include('partials/footer') %>
   </body>
-<%- include('partials/footer') %>
 </html>

@@ -2,23 +2,28 @@
 <html>
 <%- include('partials/head') %>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <%- include('partials/navBar') %>
-      <h1 class="my-4 display-4">Upload</h1>
-      <h3> Type your queries here and upload your question</h3>
-      <hr class="my-4">
-      <form action="" method="post">
-        <div class="border border-success rounded p-4 jumbotron">
-          <%- include('partials/filter_bars') %>
-          <div class="form-group">
-            <label for="question">Question text: </label>
-            <%- include('partials/quill-textArea') %>
-          </div>
-          <input class="form-control" hidden=true value=user._id name="user"
-            id="user">
-          <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+          <h1 class="my-4 display-4">Upload</h1>
+          <h3> Type your queries here and upload your question</h3>
+          <hr class="my-4">
+          <form action="" method="post">
+            <div class="border border-success rounded p-4 jumbotron">
+              <%- include('partials/filter_bars') %>
+              <div class="form-group">
+                <label for="question">Question text: </label>
+                <%- include('partials/quill-textArea') %>
+              </div>
+              <input class="form-control" hidden=true value=user._id name="user"
+                  id="user">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
         </div>
-      </form>
+        <div class="col"></div>
     </div>
   </body>
 <%- include('partials/footer') %>

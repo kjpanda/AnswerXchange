@@ -2,11 +2,13 @@
 <html>
 <%- include('partials/head') %>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <%- include('partials/navBar') %>
-      <h1 class="my-1 display-1">Login</h1>
-        <div class="jumbotron">
-          <h1 class="display-3">WELCOME!</h1>
+      <div class="row">
+      <div class="col"></div>
+      <div class="col-8">
+          <div class="jumbotron my-2">
+            <h1 class="display-3">LOGIN</h1>
             <h3>This is some description as to what the app is about
               bla bla bla. I am sad??</h3>
             <hr class= "my-5">
@@ -14,9 +16,12 @@
             <% if (message.length > 0) { %>
               <div class="alert alert-danger"><%= message %></div>
             <% } %>
-          <%- include('partials/login_component.ejs') %>
+            <%- include('partials/login_component.ejs') %>
         </div>
+        <%- include('partials/footer') %>
+      </div>
+      <div class="col"></div>
+      </div>
     </div>
   </body>
-<%- include('partials/footer') %>
 </html>

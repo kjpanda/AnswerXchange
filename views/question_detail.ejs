@@ -2,37 +2,42 @@
 <html>
 <%- include('partials/head') %>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <%- include('partials/navBar') %>
-      <h2 class="display-2"> Question: <%= question.question %></h2>
-      <small>Question by <%= question.userName %></small>
-      <hr class="my-4">
-      <div class="jumbotron">
-        <h3>Replies</h3>
-        <% if (locals.answers.length > 0) { %>
-          <% for (let answer of answers) { %>
-            <div class="my-4 p-2 border border-success rounded">
-              <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
-              <p><%= answer.answer %></p>
+      <div class="row">
+      <div class="col"></div>
+      <div class="col-8">
+        <h2 class="display-2"> Question: <%= question.question %></h2>
+        <small>Question by <%= question.userName %></small>
+        <hr class="my-4">
+        <div class="jumbotron">
+          <h3>Replies</h3>
+          <% if (locals.answers.length > 0) { %>
+            <% for (let answer of answers) { %>
+              <div class="my-4 p-2 border border-success rounded">
+                <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
+                <p><%= answer.answer %></p>
+              </div>
+            <% } %>
+          <% } else { %>
+            <div class="alert alert-danger p-2" role="alert">
+              <p >There are no answers to this question,
+                  why don't you give the first reply?</p>
             </div>
           <% } %>
-        <% } else { %>
-          <div class="alert alert-danger p-2" role="alert">
-            <p >There are no answers to this question,
-                why don't you give the first reply?</p>
-          </div>
-        <% } %>
-      </div>
-      <hr class="my-4">
-      <form action="" method="post">
-        <div class="form-group">
-          <label for="answer">Your answer:</label>
-          <%- include('partials/quill-textArea') %>
-          <input class="form-control" type="hidden" name="question"
-              required="true" value=question._id>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
-      </form>
+        <hr class="my-4">
+          <form action="" method="post">
+            <div class="form-group">
+              <label for="answer">Your answer:</label>
+              <%- include('partials/quill-textArea') %>
+              <input class="form-control" type="hidden" name="question"
+                  required="true" value=question._id>
+            </div>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="col"></div>
     </div>
   </body>
 <%- include('partials/footer') %>

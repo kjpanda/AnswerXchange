@@ -1,23 +1,28 @@
 <!-- Homepage for the user -->
 <!DOCTYPE html>
 <html>
-<%- include('partials/head') %>
+  <%- include('partials/head') %>
   <body>
-    <div class="container-fluid">
-      <%- include('partials/navBar') %>
-      <h1 class="my-4 display-4">Welcome to AnswerXchange! </h1>
-      <h3> where you can upload questions fast and get answers to your queries :) </h3>
-      <hr class="my-5">
-      <div class="jumbotron">
-        <%- include('partials/error_message') %>
-          <div class = "border border-success rounded p-4 text-muted">
-            <%- include('partials/recentposts') %>
+    <%- include('partials/navBar') %>
+    <div class="container">
+      <div class ="row">
+        <div class="col">
+          <%- include('partials/side_bar') %>
+        </div>
+        <div class="col-8">
+          <h1 class="my-4 display-4">Welcome to AnswerXchange! </h1>
+          <h3> where you can upload questions fast and get answers to your queries :) </h3>
+          <hr class="my-5">
+          <div class="jumbotron">
+            <%- include('partials/error_message') %>
+            <div class = "border border-success rounded p-4 text-muted">
+              <%- include('partials/recentposts') %>
+            </div>
           </div>
+        </div>
+        <div class="col"></div>
       </div>
     </div>
   </body>
-
-
-
 <%- include('partials/footer') %>
 </html>

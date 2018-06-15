@@ -2,42 +2,48 @@
 <html>
 <%- include('partials/head') %>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <%- include('partials/navBar') %>
-      <h1 class="display-2">Sign-Up</h1>
-      <!-- Show any messages that came back with the authentication -->
-      <% if (message.length > 0) { %>
-          <div class="alert alert-danger"><%= message %></div>
-      <% } %>
-      <form action="" method="post">
-        <div class="border border-success rounded p-4">
-          <div class="form-group">
-            <label for="email">Email: </label>
-              <input type="email" class="form-control" id="email"
-                  name="email" required="true">
-          </div>
-          <div class="form-group">
-            <label for="username">Username: </label>
-            <input type="text" class="form-control" id="username"
-                name="username" required="true">
-          </div>
-          <div class="form-group">
-            <label for="password">Password: </label>
-            <input type="password" class="form-control" id="password"
-              name="password" required="true">
-          </div>
-          <div class="form-group">
-            <label for="major">Major: </label>
-            <select class="form-control" id="major" name="major">
-              <option>Computer Science</option>
-              <option>Information System</option>
-            </select>
-          </div>
-          <%- include('partials/errorList') %>
-          <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+          <h1 class="display-2">Sign-Up</h1>
+          <!-- Show any messages that came back with the authentication -->
+          <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%= message %></div>
+          <% } %>
+          <form action="" method="post">
+            <div class="border border-success rounded p-4">
+              <div class="form-group">
+                <label for="email">Email: </label>
+                  <input type="email" class="form-control" id="email"
+                      name="email" required="true">
+              </div>
+              <div class="form-group">
+                <label for="username">Username: </label>
+                <input type="text" class="form-control" id="username"
+                    name="username" required="true">
+              </div>
+              <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="password" class="form-control" id="password"
+                    name="password" required="true">
+              </div>
+              <div class="form-group">
+                <label for="major">Major: </label>
+                <select class="form-control" id="major" name="major">
+                  <option>Computer Science</option>
+                  <option>Information System</option>
+                </select>
+              </div>
+              <%- include('partials/errorList') %>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+          <%- include('partials/footer') %>
         </div>
-      </form>
-      <%- include('partials/footer') %>
+        <div class="col"></div>
+      </div>
     </div>
   </body>
 </html>
