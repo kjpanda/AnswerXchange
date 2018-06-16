@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var moment = require("moment");
 
 var Schema = mongoose.Schema;
 
@@ -15,6 +16,8 @@ var QuestionSchema = new Schema({
   moduleCode: {type: String},
   //Semester that this question is from
   semester: {type: String, required: true},
+  //Question time stamp
+  date: {type: Date},
 });
 
 //Virtual to get the url for this question
@@ -25,6 +28,10 @@ QuestionSchema.virtual("url").get(function() {
 //Virtual to get the user's url from the question
 QuestionSchema.virtual("userUrl").get(function() {
   return "/" + this.userID;
+});
+
+QuestionSchema.virtual("date_formatted").get(function() {
+  return moment(this.date).format('MMMM Do, YYYY, h:mm:ss a');
 });
 
 module.exports = mongoose.model("Question", QuestionSchema);

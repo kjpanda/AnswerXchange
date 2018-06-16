@@ -15,7 +15,7 @@
             <% for (let question of questions) { %>
               <a href=<%= question.url %>>
                 <div class="border rounded view overlay p-2 my-2">
-                  <small>By Darren</small>
+                  <small>By <%= question.userName %></small>
                   <p class = "my-4"><%= question.question %></p>
                 </div>
               </a>

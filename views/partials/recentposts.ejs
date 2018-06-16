@@ -1,3 +1,18 @@
-<div class="form-group ">
-    <label for="code">Recent Questions:</label>
+<div class="jumbotron">
+  <% if (locals.questions.length > 0) { %>
+    Recent Questions:
+    <% for (let question of questions) { %>
+      <a href=<%= question.url %>>
+        <div class="border border-success rounded p-4 my-2 text-muted">
+          <small>By <%= question.userName %> at <%= question.date_formatted %></small>
+          <p class = "my-4"><%= question.question %></p>
+          <small>Replied by: <%= question.replies %></small>
+        </div>
+      </a>
+    <% } %>
+  <% } else { %>
+    <div class="text-muted">
+      <p>There are no questions posted.</p>
+    </div>
+  <% } %>
 </div>

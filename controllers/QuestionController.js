@@ -12,7 +12,7 @@ exports.search_get = function(req, res, next) {
 
 /* Search request for the question send by the user */
 exports.search_post = function(req, res, next) {
-  async.series({
+  async.parallel({
     questions: function(callback) {
       Question.find({"moduleCode": req.body.code, "semester": req.body.semester})
           .exec(callback);
@@ -65,6 +65,7 @@ exports.question_create_post = [
         userName: req.user.username,
         moduleCode: req.body.code,
         semester: req.body.semester,
+        date: Date.now(), 
       });
 
       //Save it in the database
