@@ -117,6 +117,7 @@ exports.question_delete_get = function(req, res, next) {
   });
 }
 
+/* Get the delete posts in question */
 exports.question_delete_post = function(req, res) {
   res.send("NOT IMPLEMENTED: QUESTION_DELETE_POST");
 }

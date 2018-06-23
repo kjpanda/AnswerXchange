@@ -19,6 +19,12 @@ module.exports = function(passport) {
     failureFlash: true,
   }));
 
+  /* User logout */
+  router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
   /* GET signup page */
   router.get('/signup', user_controller.user_create_get);
 
