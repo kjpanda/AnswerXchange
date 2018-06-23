@@ -16,6 +16,8 @@ var AnswerSchema = new Schema ({
     date: {type: Date, required: true},
     //The question id that this answer is from
     question: {type: Schema.ObjectId, ref: "Question", required: true},
+    //The photos uploaded for this answer
+    img: { data: Buffer, mime: String },
 });
 
 //Think of virtuals as your getters to be used for display
@@ -27,6 +29,13 @@ AnswerSchema.virtual("date_formatted").get(function() {
 //Virtual to get the user's url from the question
 AnswerSchema.virtual("userUrl").get(function() {
   return "/" + this.userID;
+});
+
+
+//Virtual to get the picture base encoding
+AnswerSchema.virtual("picture_data").get(function() {
+  return "data:" + this.img.mime + ";base64," +
+      Buffer(this.img.data).toString('base64');
 });
 
 //Virtual to get the answer post's url

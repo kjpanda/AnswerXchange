@@ -18,6 +18,11 @@
                 <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
                 <a href =<%= answer.answerUrl%>>
                   <div class= "border rounded view overlay p-2 my-2">
+                    <!-- Add the images if there are any -->
+                      <% if (answer.img.data) { %>
+                        <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
+                            height="400px">
+                      <% } %>
                     <p class = "my-4"> <%= answer.answer %> </p>
                   </div>
                 </a>

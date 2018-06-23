@@ -12,6 +12,8 @@ var UserSchema = new Schema({
   email: {type: String, required: true, unique: true},
   //The major for the individual, used for personalisation
   major: {type: String},
+  //User iamge
+  userPhoto: { type: String },
 });
 
 //Methods to generate a hash

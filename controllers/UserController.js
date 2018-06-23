@@ -1,4 +1,4 @@
-var User = require('../models/User.js');
+var Question = require('../models/Question.js');
 var async = require('async');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -11,8 +11,24 @@ exports.user_login_get = function(req, res, next) {
 
 /* Getting the home page when user is logged in */
 exports.user_home_get = function(req, res, next) {
-  res.render('home', {message: req.flash('homeMessage'),
-      user: req.user});
+  //If user does not exist we goto the login page
+  if (req.user == null) {
+    res.redirect('/');
+  }
+
+  async.parallel({
+    questions: function (callback) {
+      Question.find({"userID" : req.user}).
+          sort('time').limit(5).exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {
+      return next(err);
+    }
+
+    res.render('home', {user: req.user,
+        questions: results.questions});
+  });
 }
 
 /* Getting the signup page initially */
