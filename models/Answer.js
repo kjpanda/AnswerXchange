@@ -29,4 +29,9 @@ AnswerSchema.virtual("userUrl").get(function() {
   return "/" + this.userID;
 });
 
+//Virtual to get the answer post's url
+AnswerSchema.virtual("answerUrl").get(function() {
+  return "/answer/" + this._id;
+});
+
 module.exports = mongoose.model("Answer", AnswerSchema);

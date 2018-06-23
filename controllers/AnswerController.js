@@ -82,14 +82,84 @@ exports.answer_create_post = [
   }
 ];
 
-exports.answer_update_get = function(req, res) {
-  res.send("NOT IMPLEMENTED: ANSWER_UPDATE_GET");
+/* User gets the page to edit an answer */
+exports.answer_update_get = function(req, res, next) {
+  //Retrieve current answer in the database
+  Answer.findById(req.params.id, function(err, answer) {
+    if (err) return res.status(404).send(err);
+    res.render('answer_edit', {user: req.user, answer: answer});
+  });
 }
 
-exports.answer_update_post = function(req, res) {
-  res.send("NOT IMPLEMENTED: ANSWER_UPDATE_POST");
-}
+/* Processing of an edited ans sent by the user */
+exports.answer_update_post = [
+  body("text").isLength({min: 1}).trim().withMessage("Answer field is empty."),
 
-exports.answer_delete_post = function(req, res) {
-  res.send("NOT IMPLEMENTED: ANSWER_DELETE_POST");
-}
+  //Answer field is not empty, sanitize data
+  sanitizeBody('code').trim().escape(),
+  //Deal with the data
+  (req, res, next) => {
+    const errors = validationResult(req);
+    //There is an error
+    if (!errors.isEmpty()) {
+      res.render('answer_edit', {user: req.user, errors: "Please fill in the updated answer."});
+      return;
+    } else {
+      //Retrieve the current answer in the database
+      //Update the answer with the new answer keyed in by user
+      Answer.findById(req.params.id, function(err, answer) {
+        if (err) return res.status(404).send(err);
+        answer.answer = req.body.text;
+        answer.save(function(err) {
+          if (err) return res.status(404).send(err);
+          console.log('Answer successfully updated!');
+        /* Get question and answer details */
+        async.parallel({
+          question: function(callback) {
+            Question.findById(answer.question)
+                .exec(callback);
+          },
+          answers: function(callback) {
+            Answer.find({'question' : answer.question})
+                .exec(callback);
+          },
+        }, function(err, results) {
+            if (err) return res.status(404).send(err);
+
+            //Successfully get the question, render the page
+            res.render('question_detail', { user: req.user, question: results.question,
+                answers: results.answers});
+            });
+          });
+        });
+      }
+    }
+];
+
+
+exports.answer_delete_post = [(req, res, next) => {
+  var id = req.params.id;
+  Answer.findByIdAndRemove(id, function(err, deletedAnswer) {
+    //Handle potential errors here
+    if (err) return res.status(404).send(err);
+    console.log('Answer deleted!');
+    /* Get question and answer details */
+    async.parallel({
+      question: function(callback) {
+        Question.findById(answer.question)
+            .exec(callback);
+      },
+      answers: function(callback) {
+        Answer.find({'question' : answer.question})
+            .exec(callback);
+      },
+    }, function(err, results) {
+        if (err) return res.status(404).send(err);
+
+        //Successfully get the question, render the page
+        res.render('question_detail', { user: req.user, question: results.question,
+            answers: results.answers});
+        });
+      });
+    }
+  ];
