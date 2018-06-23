@@ -31,10 +31,16 @@ AnswerSchema.virtual("userUrl").get(function() {
   return "/" + this.userID;
 });
 
+
 //Virtual to get the picture base encoding
 AnswerSchema.virtual("picture_data").get(function() {
   return "data:" + this.img.mime + ";base64," +
       Buffer(this.img.data).toString('base64');
+});
+
+//Virtual to get the answer post's url
+AnswerSchema.virtual("answerUrl").get(function() {
+  return "/answer/" + this._id;
 });
 
 module.exports = mongoose.model("Answer", AnswerSchema);
