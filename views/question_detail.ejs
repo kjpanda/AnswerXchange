@@ -16,7 +16,11 @@
             <% for (let answer of answers) { %>
               <div class="my-4 p-2 border border-success rounded">
                 <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
-                <p><%= answer.answer %></p>
+                <a href =<%= answer.answerUrl%>>
+                  <div class= "border rounded view overlay p-2 my-2">
+                    <p class = "my-4"> <%= answer.answer %> </p>
+                  </div>
+                </a>
               </div>
             <% } %>
           <% } else { %>

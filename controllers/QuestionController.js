@@ -107,9 +107,13 @@ exports.question_detail_get = function(req, res, next) {
       });
 }
 
-/* Delete a question */
-exports.question_delete_get = function(req, res) {
-  res.send("NOT IMPLEMENTED: QUESTION_DELETE_GET");
+/* Delete a question, does not work yet */
+exports.question_delete_get = function(req, res, next) {
+  //Retrieve current question in the database
+  Question.findById(req.params.id, function(err, question) {
+    if (err) return res.status(404).send(err);
+    res.render('question_delete', {user: req.user, question: question});
+  });
 }
 
 exports.question_delete_post = function(req, res) {
