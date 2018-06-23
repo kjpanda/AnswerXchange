@@ -9,26 +9,29 @@
         <div class="col-8">
           <h1 class="my-4 display-4">Edit</h1>
           <h3> Edit your answers here </h3>
+          <%- include('partials/error_message') %>
           <hr class="my-4">
-          <form action="" method="post">
-            <div class="border border-success rounded p-4 jumbotron">
+          <div class="border border-success rounded p-4 jumbotron">
+            <form action=<%= answer.answerDeleteUrl %> method="post">
               <div class="form-group">
                 <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
                 <div class="my-4 p-2 border border-success rounded">
                   <label for="curr_answer"> Current ans: </label>
-                  <p class = "my-4"> <%= answer.answer %> </p>
+                  <p class = "my-4" id="curr_answer"> <%= answer.answer %> </p>
+                  <input class="form-control" hidden=true value=<%= answer.question %>
+                   name="questionID" id="questionID">
                   <button class="btn btn-primary" type="submit">Delete</button>
                 </div>
-                <label for="new_answer">Updated ans: </label>
-                <%- include('partials/quill-textArea') %>
               </div>
-              <input class="form-control" hidden=true value=user._id name="user"
-                  id="user">
+            </form>
+            <form action="" method="post">
+                <label for="text">Updated ans: </label>
+                <%- include('partials/quill-textArea') %>
               <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-        <div class="col"></div>
+      <div class="col"></div>
     </div>
   </body>
 <%- include('partials/footer') %>

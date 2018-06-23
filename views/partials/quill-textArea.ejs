@@ -29,9 +29,10 @@ placeholder: 'Type here',
 theme: 'snow'
 });
 
-var form = document.querySelector("form");
+
 var text = document.querySelector("input[name=text]");
 var photoData = document.querySelector("input[name=photoData]");
+var form = text.form;
 
 /* Function upon submission */
 form.onsubmit = function(event) {

@@ -49,9 +49,9 @@ module.exports = function(passport) {
 
   /* Send the request to edit an answer */
   router.post('/answer/:id', isLoggedIn, answer_controller.answer_update_post);
-  
+
   /* Send the request to delete an answer */
-  router.post('/answer/:id', isLoggedIn, answer_controller.answer_delete_post);
+  router.post('/answer/delete/:id', isLoggedIn, answer_controller.answer_delete_post);
 
   /* Get request for the page to upload a question */
   router.get('/question_upload', isLoggedIn, question_controller.question_create_get);

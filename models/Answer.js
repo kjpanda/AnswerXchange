@@ -43,4 +43,10 @@ AnswerSchema.virtual("answerUrl").get(function() {
   return "/answer/" + this._id;
 });
 
+//Virtual to get the answer's delete url
+//Virtual to get the answer post's url
+AnswerSchema.virtual("answerDeleteUrl").get(function() {
+  return "/answer/delete/" + this._id;
+});
+
 module.exports = mongoose.model("Answer", AnswerSchema);
