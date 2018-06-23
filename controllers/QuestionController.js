@@ -65,7 +65,7 @@ exports.question_create_post = [
         userName: req.user.username,
         moduleCode: req.body.code,
         semester: req.body.semester,
-        date: Date.now(), 
+        date: Date.now(),
       });
 
       //Save it in the database

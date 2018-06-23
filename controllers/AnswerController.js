@@ -20,6 +20,12 @@ exports.answer_create_post = [
       question: req.params.id,
     });
 
+    if (req.body.photoData) {
+      answer.img.data = new Buffer(req.body.photoData.split(",")[1],"base64");
+      var tempMime = req.body.photoData.split(";")[0]
+      answer.img.mime = tempMime.split(":")[1];
+    }
+
     //There is an error
     if (!errors.isEmpty()) {
       async.parallel({

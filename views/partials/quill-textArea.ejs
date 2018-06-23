@@ -9,6 +9,7 @@
     </div>
   </div>
   <input name="text" type="hidden">
+  <input name="photoData" type="hidden">
 <!-- Include the Quill library -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
@@ -30,15 +31,30 @@ theme: 'snow'
 
 var form = document.querySelector("form");
 var text = document.querySelector("input[name=text]");
+var photoData = document.querySelector("input[name=photoData]");
 
 /* Function upon submission */
-form.onsubmit = function() {
+form.onsubmit = function(event) {
+  //Stop the text editor from refreshing
+  //event.preventDefault();
+
   //Get content in my text-editor
   var delta = quill.getContents();
 
-  text.value = JSON.stringify(delta.ops[0].insert);
-  //Trim the last 2 characters
-  text.value = text.value.substring(1, text.value.length - 3);
+  //Go through the delta and check the object type of the ops
+  for(var i = 0; i < delta.ops.length; i++) {
+    if (typeof delta.ops[i].insert === 'string') {
+      text.value = JSON.stringify(delta.ops[i].insert);
+      //Trim the last 2 characters
+      text.value = text.value.substring(1, text.value.length - 3);
+    } else {
+      photoData.value = JSON.stringify(delta.ops[i].insert.image);
+    }
+  }
+
+  //console.log(text.value);
+  //console.log(photoData.value);
+
   return true;
 }
 </script>
