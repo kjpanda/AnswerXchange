@@ -45,9 +45,12 @@ form.onsubmit = function(event) {
   //Go through the delta and check the object type of the ops
   for(var i = 0; i < delta.ops.length; i++) {
     if (typeof delta.ops[i].insert === 'string') {
-      text.value = JSON.stringify(delta.ops[i].insert);
+      var tempString = JSON.stringify(delta.ops[i].insert);
+
+      tempString = tempString.replace(/(\r\n|\r|\n)/g, "<br>");
+
       //Trim the last 2 characters
-      text.value = text.value.substring(1, text.value.length - 3);
+      text.value += tempString.substring(1, tempString.length - 3);
     } else {
       photoData.value = JSON.stringify(delta.ops[i].insert.image);
     }

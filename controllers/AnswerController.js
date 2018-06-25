@@ -19,7 +19,7 @@ exports.answer_create_post = [
       date: Date.now(),
       question: req.params.id,
     });
-
+    
     if (req.body.photoData) {
       answer.img.data = new Buffer(req.body.photoData.split(",")[1],"base64");
       var tempMime = req.body.photoData.split(";")[0]
@@ -64,10 +64,6 @@ exports.answer_create_post = [
             Question.findById(req.params.id)
                 .exec(callback);
           },
-          answers: function(callback) {
-            Answer.find({'question' : req.params.id})
-                .exec(callback);
-          },
         }, function(err, results) {
             if (err) {
               return next(err);
@@ -78,10 +74,19 @@ exports.answer_create_post = [
               err.staus = 404;
               return next(err);
             }
-            //Successfully get the question, render the page
-            console.log("Successfully answered");
-            res.render('question_detail', { user: req.user,
-                question: results.question, answers: results.answers});
+
+            //Update the question number of replies
+            results.question.replies += 1;
+
+            Question.findByIdAndUpdate(req.params.id, results.question, {}
+                  , function (err, updatedQuestion) {
+              if (err) {
+                return next(err);
+              }
+              //Successfully get the question, render the page
+              console.log("Successfully answered");
+              res.redirect('/question/' + req.params.id);
+            });
         });
       })
     }
@@ -102,7 +107,6 @@ exports.answer_update_post = [
   body("text").isLength({min: 1}).trim().withMessage("Answer field is empty."),
 
   //Answer field is not empty, sanitize data
-  //sanitizeBody('code').trim().escape(),
   //Deal with the data
   (req, res, next) => {
     const errors = validationResult(req);
@@ -120,6 +124,13 @@ exports.answer_update_post = [
       Answer.findById(req.params.id, function(err, answer) {
         if (err) return res.status(404).send(err);
         answer.answer = req.body.text;
+
+        if (req.body.photoData) {
+          answer.img.data = new Buffer(req.body.photoData.split(",")[1],"base64");
+          var tempMime = req.body.photoData.split(";")[0]
+          answer.img.mime = tempMime.split(":")[1];
+        }
+
         answer.save(function(err) {
           if (err) return res.status(404).send(err);
           console.log('Answer successfully updated!');
@@ -160,22 +171,27 @@ exports.answer_delete_post = (req, res, next) => {
         Question.findById(req.body.questionID)
             .exec(callback);
       },
-    }, function(err, questionResult) {
+    }, function(err, results) {
         if (err) return res.status(404).send(err);
 
-        //Successfully get the question, now we need to get the answers
-        async.parallel({
-          answers: function(callback) {
-            Answer.find({'question': questionResult.question._id})
-                .exec(callback);
-          }
-        }, function(err, results) {
-          if (err) return res.status(404).send(err);
+        if (results.question == null) {
+          var err = new Error('Question not found');
+          err.staus = 404;
+          return next(err);
+        };
 
+        results.question.replies -= 1;
+
+        Question.findByIdAndUpdate(req.body.questionID, results.question, {}
+              , function (err, updatedQuestion) {
+          if (err) {
+            return next(err);
+          }
           //Successfully get the question, render the page
-          res.render('question_detail', { user: req.user,
-              question: questionResult.question, answers: results.answers});
+          console.log("Successfully answered");
+          res.redirect('/question/' + req.body.questionID);
         });
-      });
+
+    });
   });
 };

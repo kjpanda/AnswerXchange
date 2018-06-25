@@ -25,6 +25,11 @@ QuestionSchema.virtual("url").get(function() {
   return "/question/" + this._id;
 });
 
+//Virtual to get the delete url for this question
+QuestionSchema.virtual("deleteURL").get(function() {
+  return "/question/" + this._id + "/delete";
+})
+
 //Virtual to get the user's url from the question
 QuestionSchema.virtual("userUrl").get(function() {
   return "/" + this.userID;

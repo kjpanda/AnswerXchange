@@ -9,6 +9,17 @@
       <div class="col-8">
         <h2 class="display-2"> Question: <%= question.question %></h2>
         <small>Question by <%= question.userName %></small>
+        <!-- The user is able to delete the question if it is his
+            question -->
+        <% if (user) { %>
+          <% if (user._id.toString().localeCompare(question.userID) == 0) { %>
+            <a href=<%= question.deleteURL %>>
+              <div>
+                <small>Delete this question</small>
+              </div>
+            </a>
+          <% } %>
+        <% } %>
         <hr class="my-4">
         <div class="jumbotron">
           <h3>Replies</h3>
@@ -16,7 +27,6 @@
             <% for (let answer of answers) { %>
               <div class="my-4 p-2 border border-success rounded">
                 <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
-                <a href =<%= answer.answerUrl%>>
                   <div class= "border rounded view overlay p-2 my-2">
                     <!-- Add the images if there are any -->
                       <% if (answer.img.data) { %>
@@ -24,8 +34,12 @@
                             height="400px">
                       <% } %>
                     <p class = "my-4"> <%= answer.answer %> </p>
+                    <% if (user && answer.userID.toString().localeCompare(user._id) == 0) { %>
+                        <div>
+                          <a href =<%= answer.answerUrl%>>Edit this answer</a>
+                        </div>
+                    <% } %>
                   </div>
-                </a>
               </div>
             <% } %>
           <% } else { %>

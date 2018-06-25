@@ -87,7 +87,7 @@ exports.question_detail_get = function(req, res, next) {
           .exec(callback);
     },
     answers: function(callback) {
-      Answer.find({'question' : req.params.id})
+      Answer.find({'question' : req.params.id}).sort({ 'date':'ascending' })
           .exec(callback);
     },
   }, function(err, results) {
@@ -118,6 +118,21 @@ exports.question_delete_get = function(req, res, next) {
 }
 
 /* Get the delete posts in question */
-exports.question_delete_post = function(req, res) {
-  res.send("NOT IMPLEMENTED: QUESTION_DELETE_POST");
+exports.question_delete_post = function(req, res, next) {
+  //Find the answers with the supposed question id
+  //Delete all the answers related to the question
+  Answer.deleteMany({ 'question':req.body.questionID } , function(err) {
+    if (err) {
+      return next(err);
+    }
+
+    //After deleting the answers, we will delete the question
+    //Delete the question last
+    Question.findByIdAndRemove(req.body.questionID, function(err, deletedQuestion) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect('/home');
+    });
+  });
 }

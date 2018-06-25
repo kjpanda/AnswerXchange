@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/User.js');
 var async = require('async');
+var fs = require('fs');
 
 //This will be a function that modifies a given passport instance
 module.exports = function (passport) {
@@ -39,6 +40,23 @@ module.exports = function (passport) {
             email: req.body.email,
             major: req.body.major,
           });
+
+          //Save the photo if it exists else we use the dafault one
+          if (req.body.avatarPath) {
+            newUser.img.data = fs.readFileSync(req.body.avatarPath);
+            newUser.img.contentType = req.body.mimeType;
+            //Delete the photo
+            fs.unlink(req.body.avatarPath, function(err) {
+              if(err) {
+                return next(err);
+              }
+            });
+          } else {
+            var tempPath = __dirname.split('/').slice(0, -1).join('/');
+            tempPath += '/public/images/user-1.png'
+            newUser.img.data = fs.readFileSync(tempPath);
+            newUser.img.contentType = 'image/png';
+          }
 
           newUser.password = newUser.generateHash(req.body.password);
 
