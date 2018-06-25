@@ -12,8 +12,8 @@ var UserSchema = new Schema({
   email: {type: String, required: true, unique: true},
   //The major for the individual, used for personalisation
   major: {type: String},
-  //User iamge
-  userPhoto: { type: String },
+  //User image
+  img: { data: Buffer, contentType: String },
 });
 
 //Methods to generate a hash
@@ -27,8 +27,14 @@ UserSchema.methods.validPassword = function (password) {
 };
 
 //Virtual to get the url for the user page
-UserSchema.virtual("url").get(function() {
-  return "/user/" + this._id;
+UserSchema.virtual("edit_page").get(function() {
+  return "/edit/" + this._id;
+});
+
+//Virtual to get the data of the user photo in base64
+UserSchema.virtual("photo_URI").get(function() {
+  return "data:" + this.img.contentType + ";base64," +
+      Buffer.from(this.img.data, 'binary').toString('base64');
 });
 
 module.exports = mongoose.model("User", UserSchema);

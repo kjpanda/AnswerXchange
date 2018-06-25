@@ -17,6 +17,10 @@
                 <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
                 <div class="my-4 p-2 border border-success rounded">
                   <label for="curr_answer"> Current ans: </label>
+                  <% if (answer.img.data) { %>
+                    <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
+                        height="400px">
+                  <% } %>
                   <p class = "my-4" id="curr_answer"> <%= answer.answer %> </p>
                   <input class="form-control" hidden=true value=<%= answer.question %>
                    name="questionID" id="questionID">

@@ -1,6 +1,6 @@
 <!-- Side navigation -->
 <div class= "user_details">
-      <img src="../public/images/user-1.png" class="profile my-2"
+      <img src=<%= user.photo_URI %> class="profile my-2"
           alt="User photo">
   <h3 align="middle"> User details </h3>
   <h5> Name: <%= user.username %></h5>
@@ -15,19 +15,18 @@
 }
 
 .user_details {
-  margin-top: 7%;/* Initial buffer to seperate from the navbar */
+  margin-top: 5%;/* Initial buffer to seperate from the navbar */
   margin-left: 1%;
-  width:18%;
-  height: 80%;
+  width:19%;
+  height: 95%;
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: rgba(200, 200, 200, 0.8); /* Green */
-  border: black 2px dashed;
+  background-color: rgba(200, 200, 200, 0.90); /* Green */
+  border: black 2px solid;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 3em; /* Place content 60px from the top */
-  border-radius: 5%;
   text-align: center;
 }
 </style>

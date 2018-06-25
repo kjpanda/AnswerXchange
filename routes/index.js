@@ -5,17 +5,53 @@ var answer_controller = require('../controllers/AnswerController.js');
 var question_controller = require('../controllers/QuestionController.js');
 var user_controller = require('../controllers/UserController.js');
 
+var multer  = require('multer');
+
+//MULTER CONFIG: to get file photos to temp server storage
+const multerConfig = {
+    //specify diskStorage (another option is memory)
+    storage: multer.diskStorage({
+
+      //specify destination
+      destination: function(req, file, next){
+        const ext = file.mimetype.split('/')[1];
+        const fileName = file.fieldname + '-' + Date.now() + '.'+ext;
+        const tempPath = __dirname.split('/').slice(0,-1).join('/')
+            + '/uploads/';
+        next(null, tempPath);
+      },
+
+      //specify the filename to be unique
+      filename: function(req, file, next){
+        console.log(file);
+        //get the file mimetype ie 'image/jpeg' split and prefer the second value ie'jpeg'
+        const ext = file.mimetype.split('/')[1];
+        const fileName = file.fieldname + '-' + Date.now() + '.'+ext;
+        req.body.avatarPath = __dirname.split('/').slice(0,-1).join('/')
+            + '/uploads/' + fileName;
+        req.body.mimeType = file.mimetype;
+        //set the file fieldname to a unique name containing the original name, current datetime and the extension.
+        next(null, file.fieldname + '-' + Date.now() + '.'+ext);
+      }
+    }),
+  };
+
+var upload = multer(multerConfig);
+
 //Function that creates a router base on a given passport
 module.exports = function(passport) {
   var router = express.Router();
 
+  /* Initial page of the website */
+  router.get('/', user_controller.user_explore_get);
+
   /* GET login page. */
-  router.get('/', user_controller.user_login_get);
+  router.get('/login', user_controller.user_login_get);
 
   /* User login */
-  router.post('/', passport.authenticate('local-login', {
+  router.post('/login', passport.authenticate('local-login', {
     successRedirect: '/home',
-    failureRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true,
   }));
 
@@ -29,23 +65,31 @@ module.exports = function(passport) {
   router.get('/signup', user_controller.user_create_get);
 
   /* Post request to create a user account */
-  router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    failureFlash: true,
-  }));
+  router.post('/signup', upload.single('avatar'),
+      passport.authenticate('local-signup', {
+          successRedirect: '/',
+          failureRedirect: '/signup',
+          failureFlash: true,
+      }));
 
   /* GET home page. */
   router.get('/home', isLoggedIn, user_controller.user_home_get);
 
+  /* Get the page to update the user's detail */
+  router.get('/edit/:id', isLoggedIn, user_controller.user_update_get);
+
+  /* Post the user request for the new updates */
+  router.post('/edit/:id', [isLoggedIn, upload.single('avatar')]
+      , user_controller.user_update_post);
+
   /* The user goes to the search page */
-  router.get('/search', isLoggedIn, question_controller.search_get);
+  router.get('/search', question_controller.search_get);
 
   /* POST request from the search page */
-  router.post('/search', isLoggedIn, question_controller.search_post);
+  router.post('/search', question_controller.search_post);
 
   /* Get the answer for the current question */
-  router.get('/question/:id', isLoggedIn, question_controller.question_detail_get);
+  router.get('/question/:id', question_controller.question_detail_get);
 
   /* POST request from a question page, a user has gave an answer */
   router.post('/question/:id', isLoggedIn, answer_controller.answer_create_post);
@@ -82,5 +126,5 @@ function isLoggedIn(req, res, next) {
   }
 
   //Else, we will redirect it to the login page.
-  res.redirect('/');
+  res.redirect('/login');
 }

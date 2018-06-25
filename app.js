@@ -28,10 +28,11 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false, limit:'12mb' }));
+app.use(bodyParser.urlencoded({ extended: false, limit:'2mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public', express.static(__dirname + "/public"));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 //Pass the passport for configuration
 require('./config/passport')(passport);

@@ -17,8 +17,8 @@
                 <div class="my-4 p-2 border border-success rounded">
                   <label for="curr_answer"> Current Question: </label>
                   <p class = "my-4"> <%= question.question %> </p>
-                  <input class="form-control" hidden=true value=question._id
-                      name="questionID" id="questionID">
+                  <input class="form-control" hidden=true
+                      value=<%= question._id %> name="questionID" id="questionID">
                   <button class="btn btn-primary" type="submit">Delete</button>
                 </div>
               </div>
