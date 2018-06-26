@@ -7,11 +7,13 @@
       <div class="row">
         <div class="col"></div>
         <div class="col-8">
-          <div class="promo border border-success p-3" align="center">
-            <a href='/login'>Login to post your queries or help your friends</a>
-            <div>OR</div>
-            <a href='/signup'>Sign-up if you do not have an account.</a>
-          </div>
+          <% if (!locals.user) { %>
+            <div class="promo border border-success p-3" align="center">
+              <a href='/login'>Login to post your queries or help your friends</a>
+              <div>OR</div>
+              <a href='/signup'>Sign-up if you do not have an account.</a>
+            </div>
+          <% } %>
           <hr class="my-3">
           <h4>Recent happenings:</h4>
           <hr class="my-3">

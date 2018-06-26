@@ -17,7 +17,7 @@ const multerConfig = {
         const ext = file.mimetype.split('/')[1];
         const fileName = file.fieldname + '-' + Date.now() + '.'+ext;
         const tempPath = __dirname.split('/').slice(0,-1).join('/')
-            + '/uploads/';
+            + '/public/';
         next(null, tempPath);
       },
 
@@ -28,7 +28,7 @@ const multerConfig = {
         const ext = file.mimetype.split('/')[1];
         const fileName = file.fieldname + '-' + Date.now() + '.'+ext;
         req.body.avatarPath = __dirname.split('/').slice(0,-1).join('/')
-            + '/uploads/' + fileName;
+            + '/public/' + fileName;
         req.body.mimeType = file.mimetype;
         //set the file fieldname to a unique name containing the original name, current datetime and the extension.
         next(null, file.fieldname + '-' + Date.now() + '.'+ext);
