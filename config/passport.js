@@ -52,8 +52,7 @@ module.exports = function (passport) {
               }
             });
           } else {
-            var tempPath = __dirname.split('/').slice(0, -1).join('/');
-            tempPath += '/public/images/user-1.png'
+            var tempPath = process.cwd() + '/public/images/user-1.png'
             newUser.img.data = fs.readFileSync(tempPath);
             newUser.img.contentType = 'image/png';
           }

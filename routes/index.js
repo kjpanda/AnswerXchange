@@ -15,9 +15,8 @@ const multerConfig = {
       //specify destination
       destination: function(req, file, next){
         const ext = file.mimetype.split('/')[1];
-        const fileName = file.fieldname + '-' + Date.now() + '.'+ext;
-        const tempPath = __dirname.split('/').slice(0,-1).join('/')
-            + '/public/';
+        const fileName = file.fieldname + '-' + Date.now() + '.'+ ext;
+        const tempPath = process.cwd() + '/public/';
         next(null, tempPath);
       },
 
@@ -26,9 +25,8 @@ const multerConfig = {
         console.log(file);
         //get the file mimetype ie 'image/jpeg' split and prefer the second value ie'jpeg'
         const ext = file.mimetype.split('/')[1];
-        const fileName = file.fieldname + '-' + Date.now() + '.'+ext;
-        req.body.avatarPath = __dirname.split('/').slice(0,-1).join('/')
-            + '/public/' + fileName;
+        const fileName = file.fieldname + '-' + Date.now() + '.'+ ext;
+        req.body.avatarPath = process.cwd() + '/public/' + fileName;
         req.body.mimeType = file.mimetype;
         //set the file fieldname to a unique name containing the original name, current datetime and the extension.
         next(null, file.fieldname + '-' + Date.now() + '.'+ext);
