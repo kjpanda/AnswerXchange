@@ -1,14 +1,23 @@
 <div class="jumbotron">
   <% if (locals.questions.length > 0) { %>
-    Recent Questions:
+    Questions:
     <% for (let question of questions) { %>
-      <a href=<%= question.url %>>
-        <div class="border border-success rounded p-4 my-2 text-muted">
-          <small>By <%= question.userName %> at <%= question.date_formatted %></small>
-          <p class = "my-4"><%= question.question %></p>
-          <small>Replied by: <%= question.replies %></small>
+        <div class="post-container my-2 text-muted">
+          <div class="post-header pl-1 pt-3">
+            <small>By <%= question.userName %> at <%= question.date_formatted %></small>
+          </div>
+          <div class="post-content mx-3">
+              <p class = "my-4"><%= question.question %></p>
+              <small>Replied by: <%= question.replies %></small>
+            <div>
+              <a href=<%= question.url %>>
+                <button class="btn btn-primary my-2">
+                  <i class="fas fa-info-circle"></i> Question details 
+                </button>
+              </a>
+            </div>
+          </div>
         </div>
-      </a>
     <% } %>
   <% } else { %>
     <div class="text-muted">

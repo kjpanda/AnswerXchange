@@ -11,15 +11,24 @@
           <h1 class="display-2">Search Results</h1>
           <h4 class = "my-2">Search module: <%= code %>,  Search semester: <%= semester %><h4>
           <hr class="my-4">
-          <div class="border border-success rounded p-4 my-2 text-muted">
-            <% for (let question of questions) { %>
-              <a href=<%= question.url %>>
-                <div class="border rounded view overlay p-2 my-2">
-                  <small>By <%= question.userName %></small>
-                  <p class = "my-4"><%= question.question %></p>
+          <div class="border border-primary p-4 my-2 text-muted">
+            <!--<% for (let question of questions) { %>
+              <div class="post-container my-2 text-muted">
+                <div class="post-header pl-1 pt-3">
+                  <small>By <%= question.userName %> at <%= question.date_formatted %></small>
                 </div>
-              </a>
-              <% } %>
+                <div class="post-content mx-3">
+                    <p class = "my-4"><%= question.question %></p>
+                    <small>Replied by: <%= question.replies %></small>
+                  <div>
+                    <a href=<%= question.url %>>
+                      <button class="btn btn-primary my-2">More info...</button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <% } %>-->
+              <%- include('partials/recentposts') %>
           </div>
           <%- include('partials/footer') %>
         </div>

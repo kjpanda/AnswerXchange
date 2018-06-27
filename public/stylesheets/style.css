@@ -6,3 +6,22 @@ body {
 a {
   color: #00B7FF;
 }
+ .post-container{
+   background-color: white;
+   color: #33658A;
+   display: block;
+   border: 2px solid;
+   border-color: #33658A;
+ }
+
+ .post-header{
+   font-size: 24px;
+   color: white;
+   background-color: #EF5742;
+   display: block;
+   padding-top: 1em;
+ }
+
+ .post-content{
+   font-size: 18px;
+ }

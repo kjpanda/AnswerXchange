@@ -1,5 +1,5 @@
 <!-- views/partial/navbar.ejs -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="/">AnswerXchange</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse"
   data-target="#navbar" aria-controls="navbar"
@@ -40,10 +40,10 @@
 <style>
 /* Dropdown Button */
 .dropbtn {
-  color: black;
+  color: white;
   background-color: transparent;
-  padding: 10px;
-  font-size: 16px;
+  padding-right: 2em;
+  font-size: 20px;
   border: none;
   display: block;
 }
@@ -58,22 +58,26 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
-  width: 110px;
-  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.2);
+  background-color:  #1E66FF;
+  width: auto;
+  padding: 1em
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: black;
+  color: white;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+  color: white;
+  background-color: #28549C;
+}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
