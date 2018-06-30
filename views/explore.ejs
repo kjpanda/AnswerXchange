@@ -8,14 +8,14 @@
         <div class="col"></div>
         <div class="col-8">
           <% if (!locals.user) { %>
-            <div class="promo border border-success p-3" align="center">
+            <div class="promo border border-dark p-4" align="center">
               <a href='/login'>Login to post your queries or help your friends</a>
               <div>OR</div>
               <a href='/signup'>Sign-up if you do not have an account.</a>
             </div>
           <% } %>
           <hr class="my-3">
-          <h4>Recent happenings:</h4>
+          <h1>Recent happenings:</h1>
           <hr class="my-3">
           <%- include('partials/recentposts') %>
         </div>

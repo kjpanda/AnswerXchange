@@ -1,8 +1,28 @@
+h1 {
+  font-family: 'Galada', cursive;
+}
+
+h3 {
+  font-family: 'Roboto', sans-serif;
+}
+
+h4 {
+  font-family: 'Raleway', sans-serif;
+}
+
+h5 {
+  font-family: 'Indie Flower', cursive;
+}
+
 body {
-  padding: 60px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 80px;
+  font-family: 'Raleway', sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #116879;
+}
+
+.jumbotron {
+  background-color: #E7EFFC!important;
 }
