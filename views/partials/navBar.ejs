@@ -1,6 +1,7 @@
 <!-- views/partial/navbar.ejs -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/">AnswerXchange</a>
+<nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #A3C2F4;">
+  <a class="navbar-brand" href="/"><h4> AnswerXchange </h4> </a>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse"
   data-target="#navbar" aria-controls="navbar"
   aria-expanded="false" aria-label="Toggle navigation">
@@ -10,20 +11,20 @@
   <div class="collapse navbar-collapse" id="navbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/home" >Home</a>
+        <a class="nav-link" href="/home" > <h4> Home </h4> </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/search">Search</a>
+        <a class="nav-link" href="/search"> <h4> Search </h4> </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/question_upload">Upload</a>
+        <a class="nav-link" href="/question_upload"> <h4> Upload </h4> </a>
       </li>
     </ul>
     <span class= "mx-2 lead">
       <% if (locals.user) { %>
         <div class="dropdown">
           <button class="btn dropbtn" type="button" class="dropdown-button"
-              data-toggle="dropdown"><%= user.username %>
+              data-toggle="dropdown"> <h4> <%= user.username %> </h4>
           <span class="caret"></span></button>
           <ul class="dropdown-content list-unstyled">
             <li><a class="dropdown-item" href=<%= user.edit_page %>>
@@ -58,17 +59,17 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color:  #1E66FF;
-  width: auto;
-  padding: 1em
-  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
+  background-color: #ffffff;
+  width: 110px;
+  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.2);
+
   z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: white;
-  padding: 12px 16px;
+  color: black;
+  padding: 12px 10px;
   text-decoration: none;
   display: block;
 }

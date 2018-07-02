@@ -9,13 +9,15 @@
         <div class="col"></div>
         <div class="col-8">
           <h1 class="display-2">Search Results</h1>
-          <h4 class = "my-2">Search module: <%= code %>,  Search semester: <%= semester %><h4>
-          <hr class="my-4">
-          <div class="border border-primary p-4 my-2 text-muted">
-            <!--<% for (let question of questions) { %>
-              <div class="post-container my-2 text-muted">
-                <div class="post-header pl-1 pt-3">
-                  <small>By <%= question.userName %> at <%= question.date_formatted %></small>
+          <h3 class = "my-2">Search module: <%= code %>,  Search semester: <%= semester %><h3>
+          <hr class="my-2">
+          <div class = "jumbotron">
+          <div class="border border-dark rounded p-4 my-2 text-muted">
+            <% for (let question of questions) { %>
+              <h5>By <%= question.userName %></h5>
+              <a href=<%= question.url %>>
+                <div class="border border-secondary rounded view overlay p-2 my-2">
+                  <h4 class = "my-2"><%= question.question %></h4>
                 </div>
                 <div class="post-content mx-3">
                     <p class = "my-4"><%= question.question %></p>
@@ -30,6 +32,7 @@
               <% } %>-->
               <%- include('partials/recentposts') %>
           </div>
+        </div>
           <%- include('partials/footer') %>
         </div>
       <div class="col"></div>

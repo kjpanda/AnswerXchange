@@ -1,27 +1,19 @@
 <div class="jumbotron">
   <% if (locals.questions.length > 0) { %>
-    Questions:
-    <% for (let question of questions) { %>
-        <div class="post-container my-2 text-muted">
-          <div class="post-header pl-1 pt-3">
-            <small>By <%= question.userName %> at <%= question.date_formatted %></small>
-          </div>
-          <div class="post-content mx-3">
-              <p class = "my-4"><%= question.question %></p>
-              <small>Replied by: <%= question.replies %></small>
-            <div>
-              <a href=<%= question.url %>>
-                <button class="btn btn-primary my-2">
-                  <i class="fas fa-info-circle"></i> Question details 
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
+    <h3> Recent Questions: </h3>
+  <% for (let question of questions) { %>
+    <div class="border border-dark rounded p-4 my-2 text-dark">
+      <h5>By <%= question.userName %> at <%= question.date_formatted %></h5>
+      <a href=<%= question.url %>>
+        <h4 class = "my-4"><%= question.question %></h4>
+      </a>
+      <h5>Replied by: <%= question.replies %></h5>
+    </div>
+
     <% } %>
   <% } else { %>
-    <div class="text-muted">
-      <p>There are no questions posted.</p>
+    <div class="text-darj">
+      <h4>There are no questions posted.</h4>
     </div>
   <% } %>
 </div>

@@ -11,12 +11,12 @@
           <h3> Delete your question here </h3>
           <hr class="my-4">
           <form action="" method="post">
-            <div class="border border-primary p-4 jumbotron">
+            <div class="border border-dark rounded p-4 jumbotron">
               <div class="form-group">
-                <p>By <%=question.userName %> </p>
-                <div class="my-4 p-2 border border-success rounded">
+                <h5>By <%=question.userName %> </h5>
+                <div class="my-4 p-2 border border-dark rounded">
                   <label for="curr_answer"> Current Question: </label>
-                  <p class = "my-4"> <%= question.question %> </p>
+                  <h4 class = "my-2"> <%= question.question %> </h4>
                   <input class="form-control" hidden=true
                       value=<%= question._id %> name="questionID" id="questionID">
                   <button class="btn btn-primary" type="submit">Delete</button>

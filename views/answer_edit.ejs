@@ -11,17 +11,18 @@
           <h3> Edit your answers here </h3>
           <%- include('partials/error_message') %>
           <hr class="my-4">
+
           <div class="border border-primary p-4 jumbotron">
             <form action=<%= answer.answerDeleteUrl %> method="post">
               <div class="form-group">
-                <p>By <%=answer.userName %> answered at <%= answer.date_formatted %></p>
-                <div class="my-4 p-2 border border-success rounded">
+                <h5>By <%=answer.userName %> answered at <%= answer.date_formatted %></h5>
+                <div class="my-4 p-2 border border-dark rounded">
                   <label for="curr_answer"> Current ans: </label>
                   <% if (answer.img.data) { %>
                     <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
                         height="400px">
                   <% } %>
-                  <p class = "my-4" id="curr_answer"> <%= answer.answer %> </p>
+                  <h4 class = "my-4" id="curr_answer"> <%= answer.answer %> </h4>
                   <input class="form-control" hidden=true value=<%= answer.question %>
                    name="questionID" id="questionID">
                   <button class="btn btn-primary" type="submit">Delete</button>

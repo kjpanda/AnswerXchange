@@ -7,14 +7,15 @@
       <div class="row">
         <div class="col"></div>
         <div class="col-8">
-          <h1 class="my-4 display-4">Search</h1>
-          <h3> Do a quick search of the questions according to their modules</h3>
-          <%- include('partials/error_message') %>
+          <h1 class="my-2 display-2">Search</h1>
+          <h3> Search for answers to your queries here </h3>
           <hr class="my-5">
           <div class="jumbotron border border-primary p-4 text-muted">
             <form action="" method="post">
-              <%- include('partials/filter_bars') %>
-              <button type="submit" class="btn btn-primary">Filter</button>
+              <div class = "border border-dark rounded p-4 text-muted">
+                <%- include('partials/filter_bars') %>
+                <button type="submit" class="btn btn-primary">Filter</button>
+              </div>
             </form>
           </div>
         </div>
