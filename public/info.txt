@@ -1,0 +1,6 @@
+Colour scheme
+Powder blue: #BADEDB
+Prussian blue: #003459
+Vivid cerulean: #00A8E8
+Middle blue: #78CAD2
+Cyan Cobalt Blue: #28549C
