@@ -1,5 +1,6 @@
 var Question = require('../models/Question.js');
 var User = require('../models/User.js');
+var Notification = require('../models/Notification.js');
 var async = require('async');
 var fs = require('fs');
 const { body,validationResult } = require('express-validator/check');
@@ -18,7 +19,7 @@ exports.user_explore_get = function(req, res, next) {
       return next(err);
     }
 
-    res.render('explore', { questions:results.questions });
+    res.render('explore', { questions:results.questions, user: req.user});
   });
 }
 
@@ -40,12 +41,24 @@ exports.user_home_get = function(req, res, next) {
       Question.find({"userID" : req.user}).
           sort('time').limit(5).exec(callback);
     },
+    notifications: function(callback) {
+      Notification.find({"user": req.user}).exec(callback);
+    },
   }, function(err, results) {
     if (err) {
       return next(err);
     }
 
-    res.render('home', {user: req.user,
+    //Clear this notification
+    for (let curr of results.notifications) {
+      Notification.findByIdAndRemove(curr._id, function(err, deletedAnswer) {
+        if (err) {
+          next(err);
+        }
+      });
+    }
+
+    res.render('home', {user: req.user, notifications: results.notifications,
         questions: results.questions});
   });
 }
@@ -57,7 +70,28 @@ exports.user_create_get = function(req, res, next) {
 
 /* Get the page to edit the user details */
 exports.user_update_get = function(req,res, next) {
-  res.render('profile_edit', {user: req.user});
+  async.parallel({
+    notifications: function(callback) {
+      Notification.find({"userID" : req.user}).exec(callback);
+    },
+  }, function (err, results) {
+    if (err) {
+      next(err);
+    }
+
+    //Clear this notification
+    for (let curr of results.notifications) {
+      Notification.findByIdAndRemove(curr._id, function(err, deletedAnswer) {
+        if (err) {
+          next(err);
+        }
+      });
+    }
+
+    //All is successful and we will serve the edit page
+    res.render('profile_edit', {user: req.user,
+      notifications: results.notifications});
+  });
 }
 
 exports.user_update_post = [

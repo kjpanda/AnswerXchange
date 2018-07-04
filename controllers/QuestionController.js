@@ -1,6 +1,7 @@
 var Question = require('../models/Question.js');
 var Answer = require('../models/Answer.js');
 var User = require('../models/User.js');
+var Notification = require('../models/Notification.js')
 var async = require('async');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -90,6 +91,9 @@ exports.question_detail_get = function(req, res, next) {
       Answer.find({'question' : req.params.id}).sort({ 'date':'ascending' })
           .exec(callback);
     },
+    notifications: function(callback) {
+      Notification.find({'userID' : req.user}).exec(callback);
+    }
   }, function(err, results) {
       if (err) {
         return next(err);
@@ -101,19 +105,46 @@ exports.question_detail_get = function(req, res, next) {
         return next(err);
       }
 
+      //Clear this notification
+      for (let curr of results.notifications) {
+        Notification.findByIdAndRemove(curr._id, function(err, deletedAnswer) {
+          if (err) {
+            next(err);
+          }
+        });
+      }
+
       /* The user should exist */
       //Successfully get the question, render the page
-      res.render('question_detail', { user: req.user, question: results.question,
-          answers: results.answers});
+      res.render('question_detail', { user: req.user, notifications: results.notifications,
+         question: results.question, answers: results.answers});
       });
 }
 
 /* Delete a question, does not work yet */
 exports.question_delete_get = function(req, res, next) {
   //Retrieve current question in the database
-  Question.findById(req.params.id, function(err, question) {
+  async.parallel({
+    question: function(callback) {
+      Question.findById(req.params.id).exec(callback);
+    },
+    notifications: function(callback) {
+      Notification.find({"userID" : req.user}).exec(callback)
+    },
+  }, function(err, results) {
     if (err) return res.status(404).send(err);
-    res.render('question_delete', {user: req.user, question: question});
+
+    //Clear this notification
+    for (let curr of results.notifications) {
+      Notification.findByIdAndRemove(curr._id, function(err, deletedAnswer) {
+        if (err) {
+          next(err);
+        }
+      });
+    }
+
+    res.render('question_delete', {user: req.user, notifications: results.notifications,
+       question: results.question});
   });
 }
 

@@ -1,30 +1,34 @@
 var Answer = require('../models/Answer.js');
 var Question = require('../models/Question.js');
 var User = require('../models/User.js');
+var Notification = require('../models/Notification.js');
 var async = require('async');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
-/* Processes the uploading and creation of an answer */
-exports.answer_create_post = [
-  body("text").isLength({min: 1}).trim().withMessage("Answer field is empty."),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
+  exports.answer_create_post = [
+    /* Processes the uploading and creation of an answer */
+    body("text").isLength({min: 1}).trim().withMessage("Answer field is empty."),
 
-    var answer = new Answer({
+    (req, res, next) => {
+      const errors = validationResult(req);
+
+      var answer = new Answer({
       answer: req.body.text,
       userName: req.user.username,
       userID: req.user,
       date: Date.now(),
       question: req.params.id,
     });
-    
+
     if (req.body.photoData) {
       answer.img.data = new Buffer(req.body.photoData.split(",")[1],"base64");
       var tempMime = req.body.photoData.split(";")[0]
       answer.img.mime = tempMime.split(":")[1];
     }
+
+
 
     //There is an error
     if (!errors.isEmpty()) {
@@ -36,6 +40,9 @@ exports.answer_create_post = [
         answers: function(callback) {
           Answer.find({'question' : req.params.id})
               .exec(callback);
+        },
+        notifications: function(callback) {
+          Notification.find({"userID" : req.user}).exec(callback);
         },
       }, function(err, results) {
           if (err) {
@@ -50,7 +57,7 @@ exports.answer_create_post = [
           //Successfully get the question, render the page
           console.log("Error in answer");
 
-          res.render('question_detail', { user : req.user,
+          res.render('question_detail', { user : req.user, notifications: results.notifications,
               question: results.question, answers: results.answers,
               errors: errors.array() });
       });
@@ -85,6 +92,24 @@ exports.answer_create_post = [
               }
               //Successfully get the question, render the page
               console.log("Successfully answered");
+
+              //Create a notification for the answer
+              var notification = new Notification({
+                user: updatedQuestion.userID,
+                date: Date.now(),
+              });
+
+              notification.link = updatedQuestion.url;
+              notification.information = req.user.username +
+                  " answered: " + updatedQuestion.question;
+
+              notification.save(function(err) {
+                if (err) {
+                  return next(err);
+                }
+              }) ;
+
+              //Redirect to the next page
               res.redirect('/question/' + req.params.id);
             });
         });
@@ -95,10 +120,27 @@ exports.answer_create_post = [
 
 /* User gets the page to edit an answer */
 exports.answer_update_get = function(req, res, next) {
-  //Retrieve current answer in the database
-  Answer.findById(req.params.id, function(err, answer) {
+  async.parallel({
+    answer: function(callback) {
+      Answer.findById(req.params.id).exec(callback);
+    },
+    notifications: function(callback) {
+      Notification.find({"userID" : req.user}).exec(callback)
+    },
+  }, function(err, results) {
     if (err) return res.status(404).send(err);
-    res.render('answer_edit', {user: req.user, answer: answer});
+
+    //Clear this notification
+    for (let curr of results.notifications) {
+      Notification.findByIdAndRemove(curr._id, function(err, deletedAnswer) {
+        if (err) {
+          next(err);
+        }
+      });
+    }
+
+    res.render('answer_edit', {user: req.user, notifications: results.notifications,
+       answer: results.answer});
   });
 }
 
@@ -114,9 +156,24 @@ exports.answer_update_post = [
     if (!errors.isEmpty()) {
       Answer.findById(req.params.id, function(err, answer) {
         if (err) return res.status(404).send(err);
-        res.render('answer_edit', {user: req.user, answer: answer,
-            errors:"Please fill in the updated answer."});
-        return next();
+
+        Notification.find({"userID" : req.user}, function(err, notifications) {
+          if (err) {
+            next(err);
+          }
+
+          //Clear this notification
+          for (let curr of results.notifications) {
+            Notification.findByIdAndRemove(curr._id, function(err, deletedAnswer) {
+              if (err) {
+                next(err);
+              }
+            });
+          }
+
+          res.render('answer_edit', {user: req.user, answer: answer,
+            notifications: notifications, errors:"Please fill in the updated answer."});
+        });
       });
     } else {
       //Retrieve the current answer in the database
@@ -135,26 +192,11 @@ exports.answer_update_post = [
           if (err) return res.status(404).send(err);
           console.log('Answer successfully updated!');
         /* Get question and answer details */
-        async.parallel({
-          question: function(callback) {
-            Question.findById(answer.question)
-                .exec(callback);
-          },
-          answers: function(callback) {
-            Answer.find({'question' : answer.question})
-                .exec(callback);
-          },
-        }, function(err, results) {
-            if (err) return res.status(404).send(err);
-
-            //Successfully get the question, render the page
-            res.render('question_detail', { user: req.user, question: results.question,
-                answers: results.answers});
-            });
-          });
+          res.redirect('/question/' + answer.question);
         });
-      }
+      });
     }
+  }
 ];
 
 
