@@ -8,7 +8,19 @@ const { sanitizeBody } = require('express-validator/filter');
 
 /* Gives the user the search page */
 exports.search_get = function(req, res, next) {
-  res.render('search', { user: req.user });
+  async.parallel({
+    //Get the notifications for the user
+    notifications: function(callback) {
+      Notification.find({"userID": req.user}).exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {
+      next(err);
+    }
+
+    res.render('search', { user: req.user, notifications: results.notifications });
+  })
+
 }
 
 /* Search request for the question send by the user */
@@ -37,7 +49,19 @@ exports.search_post = function(req, res, next) {
 
 /* User gets the page to upload a question */
 exports.question_create_get = function(req, res, next) {
-  res.render('question_upload', {user: req.user});
+  async.parallel({
+    notifications: function(callback) {
+      Notification.find({"userID": req.user}).exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {
+      next(err);
+    }
+
+    res.render('question_upload', { user: req.user,
+        notifications: results.notifications });
+  });
+
 }
 
 /* Processing of a question sent by the user */

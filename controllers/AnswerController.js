@@ -20,6 +20,8 @@ const { sanitizeBody } = require('express-validator/filter');
       userID: req.user,
       date: Date.now(),
       question: req.params.id,
+      vote: 0,
+      votedUsers: [],
     });
 
     if (req.body.photoData) {
@@ -237,3 +239,54 @@ exports.answer_delete_post = (req, res, next) => {
     });
   });
 };
+
+exports.answer_vote = function(req, res, next) {
+  //Get the answer from database
+  async.parallel({
+    answer: function(callback) {
+      Answer.findById(req.params.id).exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {
+      next(err);
+    }
+
+    results.answer.vote++;
+    results.answer.votedUsers.push(req.user);
+    var newAnswer = results.answer;
+
+    //Find the user and increase his Points
+    User.findById(results.answer.userID, function(err, user) {
+      user.points += 5;
+      var newUser = user;
+      User.findByIdAndUpdate(results.answer.userID, newUser, function(err, updatedAnswer) {
+        if (err) {
+          next(err);
+        }
+
+        //Create the notification to update the user who posted the answer
+        //that he got an upvote
+        var notification = new Notification({
+          user: results.answer.userID,
+          date: Date.now(),
+        });
+        notification.information = req.user.username + "voted for your answer!";
+        notification.link = '/question/' + results.answer.question;
+
+        notification.save(function(err) {
+          if (err) {
+            return next(err);
+          }
+        }) ;
+      });
+    });
+
+    //Find the answer and update it once it is done
+    Answer.findByIdAndUpdate(req.params.id, newAnswer, function(err, updatedAnswer) {
+      if (err) {
+        next (err);
+      }
+      res.redirect('/question/' + updatedAnswer.question);
+    });
+  });
+}

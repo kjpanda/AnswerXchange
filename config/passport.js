@@ -39,6 +39,7 @@ module.exports = function (passport) {
             username: req.body.username,
             email: req.body.email,
             major: req.body.major,
+            points: 0,
           });
 
           //Save the photo if it exists else we use the dafault one
@@ -58,11 +59,14 @@ module.exports = function (passport) {
           }
 
           newUser.password = newUser.generateHash(req.body.password);
-
+          newUser.friends = [];
+          newUser.pendingFriends = [];
+          
           newUser.save(function(err) {
             if (err) {
               //Error due to the email being the save
               if (err.message.indexOf('duplicate key error')) {
+                console.log(err.message);
                 return done (null, false, req.flash('signupMessage', 'That email is already taken'));
               }
               throw err;

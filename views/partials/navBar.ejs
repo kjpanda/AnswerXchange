@@ -19,6 +19,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/question_upload"> <h4> Upload </h4> </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href='/friends'> <h4> Friends </h4> </a>
+      </li>
     </ul>
       <% if (locals.user) { %>
         <% if (locals.notifications) { %>
@@ -30,7 +33,7 @@
             <div class="dropdown-menu">
               <% if (locals.notifications.length > 0) { %>
                 <% for (let notification of notifications) { %>
-                  <a  class="dropdown-item" href=<%= notification.link %>>
+                  <a  class="dropdown-item-text" href=<%= notification.link %>>
                     <%= notification.information %>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -80,7 +83,7 @@
   display: none;
   position: absolute;
   background-color: #ffffff;
-  width: 110px;
+  width: 120px;
   box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.2);
 
   z-index: 1;

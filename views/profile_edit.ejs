@@ -5,8 +5,7 @@
     <div class="container">
       <%- include('partials/navBar') %>
       <div class="row">
-        <div class="col"></div>
-        <div class="col-8">
+        <div class="col-md-10 offset-md-1">
           <h1 class="display-2">Edit profile</h1>
           <!-- Show any messages that came back with the authentication -->
           <% if (locals.message) { %>
@@ -37,7 +36,6 @@
           </form>
           <%- include('partials/footer') %>
         </div>
-        <div class="col"></div>
       </div>
     </div>
   </body>

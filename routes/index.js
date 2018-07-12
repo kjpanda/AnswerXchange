@@ -43,6 +43,18 @@ module.exports = function(passport) {
   /* Initial page of the website */
   router.get('/', user_controller.user_explore_get);
 
+  /* Post request for searching of friends */
+  router.post('/friend-search', isLoggedIn, user_controller.user_search_post);
+
+  /* Post request to add a friend */
+  router.post('/friend-add', isLoggedIn, user_controller.user_add_friend);
+
+  /* Post request to accept a friend */
+  router.post('/friend-accept', user_controller.accept_friend);
+
+  /* Post request ot decline a friend */
+  router.post('/friend-decline', user_controller.decline_friend);
+
   /* GET login page. */
   router.get('/login', user_controller.user_login_get);
 
@@ -101,6 +113,9 @@ module.exports = function(passport) {
   /* Send the request to delete an answer */
   router.post('/answer/delete/:id', isLoggedIn, answer_controller.answer_delete_post);
 
+  /* Router to upVote for an answer */
+  router.post('/answer/:id/vote', isLoggedIn, answer_controller.answer_vote);
+
   /* Get request for the page to upload a question */
   router.get('/question_upload', isLoggedIn, question_controller.question_create_get);
 
@@ -112,6 +127,9 @@ module.exports = function(passport) {
 
   /* Post request to delete a question */
   router.post('/question/:id/delete', isLoggedIn, question_controller.question_delete_post);
+
+  /* Get request for putting all the friends that a user has */
+  router.get('/friends', isLoggedIn, user_controller.user_friends_get);
 
   return router
 };

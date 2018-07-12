@@ -1,0 +1,13 @@
+<!-- prereq: list of friends exist -->
+<% for (let friend of friends) { %>
+  <div class="row">
+    <div class="jumbotron-fluid my-2">
+      <div class="float-xs-left">
+        <h5><%= user.username %></h5>
+      </div>
+      <div class="float-xs-right">
+        <img src=<%= friend.photo_URL %> alt=<%= friend.username %> />
+      </div>
+    </div>
+  </div>
+<% } %>

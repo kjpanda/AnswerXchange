@@ -5,8 +5,7 @@
     <div class="container">
       <%- include('partials/navBar') %>
       <div class="row">
-      <div class="col"></div>
-      <div class="col-8">
+      <div class="col-md-10 offset-md-1">
         <h1 class= "display-4"><%= question.question %></h1>
         <h4>Question by <%= question.userName %></h4>
         <!-- The user is able to delete the question if it is his
@@ -33,7 +32,39 @@
                         <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
                             height="400px">
                       <% } %>
-                    <h4 class = "my-4"> <%= answer.answer %> </h4>
+                    <div class="row">
+                      <h4 class = "my-4"> <%= answer.answer %> </h4>
+                    </div>
+                    <!--Check if the current user has voted already -->
+                    <% if (JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
+                      <div class="row">
+                        <div class="offset-md-6">
+                          <button type="submit"
+                              class="btn btn-outline-dark btn-sm" disabled>
+                            <i class="fas fa-thumbs-up mx-4"> Like</i>
+                          </button>
+                        </div>
+                      </div>
+                    <% } else { %>
+                      <div class="row">
+                        <div class="offset-md-6">
+                          <form action=<%= answer.votingURL %> method="post" >
+                            <button type="submit"
+                                class="btn btn-outline-dark btn-sm"
+                                name="vote" value="like">
+                              <i class="fas fa-thumbs-up mx-4"> Like</i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    <% } %>
+                    <!-- Give details of the answer -->
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <h5>Votes: <%= answer.vote %></h5>
+                      </div>
+                    </div>
+
                     <% if (user && answer.userID.toString().localeCompare(user._id) == 0) { %>
                         <div>
                           <a href =<%= answer.answerUrl%>>

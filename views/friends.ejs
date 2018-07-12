@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('partials/navBar') %>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <h1 class="my-2 display-2">Friend List: </h1>
+          <hr />
+          <% if (locals.friends.length == 0) { %>
+            <h5>
+               You don't seem to have any friends, why don't you add some!!
+            </h5>
+          <% } else { %>
+            <%- include('partials/friends-list') %>
+          <% } %>
+
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

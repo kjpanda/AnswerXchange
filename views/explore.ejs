@@ -5,22 +5,49 @@
     <div class="container">
       <%- include('partials/navBar') %>
       <div class="row">
-        <div class="col"></div>
-        <div class="col-8">
+        <div class="col-md-10 offset-md-1">
           <% if (!locals.user) { %>
-
             <div class="promo border border-primary p-3" align="center">
               <a href='/login'>Login to post your queries or help your friends</a>
               <div>OR</div>
               <a href='/signup'>Sign-up if you do not have an account.</a>
             </div>
+          <% }  else { %>
+            <form action="/friend-search" method="post">
+              <div class="promo border border-primary p-3">
+                <label for="name"><h5>Search for your friends:</h5></label>
+                <input type="text" class="form-control" name="name"
+                    id="name" paceholder="Your friend's username here..." required>
+                <button type="submit" class="btn btn-primary my-3">Search</button>
+              </div>
+            </form>
+            <!-- If there are any request, friend request, it will be shown here -->
+            <% if (locals.pendingFriends.length > 0) { %>
+              <hr class="my-2" />
+              <div class="jumbotron">
+                <% for(let pending of locals.pendingFriends) { %>
+                  <form action="" method="post">
+                    <div class="border border-primary p-3">
+                      <p>
+                        <%= pending.username %> has requested to be your friend.
+                      </p>
+                      <input class="form-control" type="hidden" name="friendID"
+                          id="friendID" value=pending._id />
+                      <button type="submit" class="btn btn-success"
+                          name="acceptance" value="accept">Accept</button>
+                      <button type="submit" class="btn btn-warning"
+                          name="acceptance" value="decline">Decline</button>
+                    </div>
+                  </form>
+                <% } %>
+              </div>
+            <% } %>
           <% } %>
           <hr class="my-3">
           <h1>Recent happenings:</h1>
           <hr class="my-3">
           <%- include('partials/recentposts') %>
         </div>
-        <div class="col"></div>
       </div>
     </div>
     <%- include('partials/footer') %>
