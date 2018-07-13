@@ -1,11 +1,27 @@
 <!-- Side navigation -->
 <div class= "user_details">
-      <img src=<%= user.photo_URI %> class="profile my-2"
+  <% if (user.local) { %>
+    <div class = "local-user">
+       <img src=<%= user.local.photo_URI %> class="profile my-2"
           alt="User photo">
   <h3 align="middle"> User details </h3>
-  <h5> Name: <%= user.username %></h5>
-  <h5> Email: <%= user.email %> </h5>
-  <h5> Major: <%= user.major %> </h5>
+  <h5> Name: <%= user.local.username %></h5>
+  <h5> Email: <%= user.local.email %> </h5>
+  <h5> Major: <%= user.local.major %> </h5>
+</div>
+<% } if (user.facebook) { %>
+  <!-- Facebook details -->
+  <div class = "facebook-user">
+    <!-- image not working -->
+  <img src=<%= user.facebook.photo_URI %> class="profile my-2"
+     alt="User photo">
+    <h3 align="middle"> Facebook details </h3>
+    <!-- name currently not working -->
+    <h5> Name: <%= user.facebook.username %> </h5>
+    <h5> Email: <%= user.facebook.email %> </h5>
+  </div>
+  <% } %>
+
 </div>
 
 <style>
