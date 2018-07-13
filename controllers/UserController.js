@@ -204,8 +204,11 @@ exports.user_search_post = function(req, res, next) {
     var newFriends = [];
     for (let user of results.users) {
       //If it is not in the friends list and in the pending list
-      if(!req.user.pendingFriends.includes(user._id) &&
-          !req.user.friends.includes(user._id)) {
+      //and not the same user
+      var userID = JSON.stringify(user._id);
+      if(!JSON.stringify(req.user.pendingFriends).includes(userID) &&
+          !JSON.stringify(req.user.friends).includes(userID) &&
+            JSON.stringify(req.user._id).localeCompare(userID)) {
         newFriends.push(user);
       }
     }
@@ -247,7 +250,7 @@ exports.user_friends_get = function(req, res, next) {
 exports.user_add_friend = function(req, res, next) {
   async.parallel({
     friend: function(callback) {
-      User.findById(req.body.userID).exec(callback);
+      User.findById(req.body.friendID).exec(callback);
     },
   }, function(err, results) {
     if (err) {
@@ -259,7 +262,7 @@ exports.user_add_friend = function(req, res, next) {
     var newFriend = results.friend;
 
     //Update the database accordingly
-    User.findByIdAndUpdate(req.body.userID, newFriend, function(err) {
+    User.findByIdAndUpdate(req.body.friendID, newFriend, function(err) {
       if (err) {
         return next(err);
       }
@@ -272,9 +275,124 @@ exports.user_add_friend = function(req, res, next) {
 }
 
 exports.accept_friend = function(req, res, next) {
-  res.send("NOT IMPLEMENTED: ACCEPT_FRIEND");
-}
+    async.parallel({
+      friend: function(callback) {
+        User.findById(req.body.friendID).exec(callback);
+      },
+      currUser: function (callback) {
+        User.findById(req.user._id).exec(callback);
+      },
+    }, function(err, results) {
+      if (err) {
+        next(err);
+      }
 
-exports.decline_friend = function(req, res, next) {
-  res.send("NOT IMPLEMENTED: DECLINE_FRIEND");
+      var currUser = results.currUser;
+      var friend = results.friend;
+
+      //Check the value of the acceptance
+      //If it is accepted we will update both users and give them notifications
+      if (req.body.acceptance.localeCompare("accept") === 0) {
+          //Update the current user
+          currUser.friends.push(req.body.friendID);
+          //Go through the pending friends and delete the friendID
+          for (var i = 0; i < currUser.pendingFriends.length ; i++) {
+            if (JSON.stringify(currUser.pendingFriends[i]).localeCompare(req.body.friendID)) {
+              currUser.pendingFriends.splice(i, 1);
+            }
+          }
+
+          User.findByIdAndUpdate(req.user._id, currUser, function(err) {
+            if (err) {
+              next(err);
+            }
+          });
+
+        //Update the friend
+        friend.friends.push(req.user._id);
+
+        User.findByIdAndUpdate(friend._id, friend, function(err) {
+          if (err) {
+            next (err);
+          }
+        });
+
+        //Add in the notifications for the user
+        var userNotification = new Notification({
+          user: req.user._id,
+          link: "#",
+          date: Date.now(),
+        });
+
+        userNotification.information = friend.username + " is now your friend.";
+
+        userNotification.save(function(err) {
+          if (err) {
+            next (err);
+          }
+
+          //Give a notification to the friend
+          var friendNotification = new Notification({
+            user: friend._id,
+            link: "#",
+            date: Date.now(),
+          });
+
+          friendNotification.information = currUser.username + "is now your friend.";
+
+          friendNotification.save(function(err) {
+            if (err) {
+              next(err);
+            }
+            res.redirect('/');
+          });
+        });
+
+      } else {
+        //Go through the pending friends and delete the friendID
+        for (var i = 0; i < currUser.pendingFriends.length ; i++) {
+          if (JSON.stringify(currUser.pendingFriends[i]).localeCompare(req.body.friendID)) {
+            currUser.pendingFriends.splice(i, 1);
+          }
+        }
+
+        User.findByIdAndUpdate(req.user._id, currUser, function(err) {
+          if (err) {
+            next(err);
+          }
+        });
+
+        //Add in the notifications for the user
+        var userNotification = new Notification({
+          user: req.user._id,
+          link: "#",
+          date: Date.now(),
+        });
+
+        userNotification.information = friend.username + " has been declined.";
+
+        userNotification.save(function(err) {
+          if (err) {
+            next (err);
+          }
+
+          //Give a notification to the friend
+          var friendNotification = new Notification({
+            user: friend._id,
+            link: "#",
+            date: Date.now(),
+          });
+
+          friendNotification.information = currUser.username +
+              "has decline your friend request.";
+
+          friendNotification.save(function(err) {
+            if (err) {
+              next(err);
+            }
+            res.redirect('/');
+          });
+        });
+      }
+    });
 }

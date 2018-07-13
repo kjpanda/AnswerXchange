@@ -49,11 +49,9 @@ module.exports = function(passport) {
   /* Post request to add a friend */
   router.post('/friend-add', isLoggedIn, user_controller.user_add_friend);
 
-  /* Post request to accept a friend */
+  /* Post request to accept or decline a friend */
   router.post('/friend-accept', user_controller.accept_friend);
 
-  /* Post request ot decline a friend */
-  router.post('/friend-decline', user_controller.decline_friend);
 
   /* GET login page. */
   router.get('/login', user_controller.user_login_get);

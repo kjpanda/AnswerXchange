@@ -109,10 +109,10 @@ const { sanitizeBody } = require('express-validator/filter');
                 if (err) {
                   return next(err);
                 }
-              }) ;
 
-              //Redirect to the next page
-              res.redirect('/question/' + req.params.id);
+                //Redirect to the next page
+                res.redirect('/question/' + req.params.id);
+              }) ;
             });
         });
       })

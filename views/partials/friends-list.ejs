@@ -1,13 +1,15 @@
 <!-- prereq: list of friends exist -->
 <% for (let friend of friends) { %>
-  <div class="row">
-    <div class="jumbotron-fluid my-2">
-      <div class="float-xs-left">
-        <h5><%= user.username %></h5>
-      </div>
-      <div class="float-xs-right">
-        <img src=<%= friend.photo_URL %> alt=<%= friend.username %> />
-      </div>
+  <div class="border border-primary my-2 p-4" style="overflow: hidden">
+    <div class="float-left">
+      <h5>Name: <%= friend.username %></h5>
+      <br />
+      <h5>Major: <%= friend.major %></h5>
     </div>
+    <div class="float-right">
+      <img src=<%= friend.photo_URI %>
+          class="smaller-profile"
+          alt=<%= friend.username %> />
+      </div>
   </div>
 <% } %>

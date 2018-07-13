@@ -81,24 +81,59 @@ exports.question_create_post = [
       res.render('question_upload', { user: req.user, errors: errors.array()});
       return;
     } else {
-      //Look through the question database and check if there is one with the
-      //exact same question
-      var question = new Question({
-        question: req.body.text,
-        replies: 0,
-        userID: req.user,
-        userName: req.user.username,
-        moduleCode: req.body.code,
-        semester: req.body.semester,
-        date: Date.now(),
-      });
-
-      //Save it in the database
-      question.save(function (err) {
-        if (err) {
-          return next(err);
+      async.parallel({
+        friends: function(callback) {
+          User.find({"_id": req.user.friends}).exec(callback);
+        },
+        question: function(callback) {
+          Question.find({"question": req.body.text}).exec(callback);
         }
-        res.redirect(question.url);
+      }, function(err, results) {
+        if (err) {
+          next(err);
+        }
+
+        if (results.question) {
+          //The question already exists, we will just render the question page
+          res.redirect(results.question.url);
+        } else {
+          var question = new Question({
+            question: req.body.text,
+            replies: 0,
+            userID: req.user,
+            userName: req.user.username,
+            moduleCode: req.body.code,
+            semester: req.body.semester,
+            date: Date.now(),
+          });
+
+          //Save it in the database
+          question.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+
+            //Create the notifications for the friends
+            for (let friend of friends) {
+              var newNotification = new Notification({
+                user: friend._id,
+                link: question.url,
+                date: Date.now(),
+              });
+
+              newNotification.information = req.user.username +
+                  " asked a question, care to help?";
+
+              newNotification.save(function(err) {
+                if (err) {
+                  next(err);
+                }
+              });
+            }
+
+            res.redirect(question.url);
+          });
+        };
       });
     }
   }
