@@ -8,7 +8,19 @@ const { sanitizeBody } = require('express-validator/filter');
 
 /* Gives the user the search page */
 exports.search_get = function(req, res, next) {
-  res.render('search', { user: req.user });
+  async.parallel({
+    //Get the notifications for the user
+    notifications: function(callback) {
+      Notification.find({"userID": req.user}).exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {
+      next(err);
+    }
+
+    res.render('search', { user: req.user, notifications: results.notifications });
+  })
+
 }
 
 /* Search request for the question send by the user */
@@ -37,7 +49,19 @@ exports.search_post = function(req, res, next) {
 
 /* User gets the page to upload a question */
 exports.question_create_get = function(req, res, next) {
-  res.render('question_upload', {user: req.user});
+  async.parallel({
+    notifications: function(callback) {
+      Notification.find({"userID": req.user}).exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {
+      next(err);
+    }
+
+    res.render('question_upload', { user: req.user,
+        notifications: results.notifications });
+  });
+
 }
 
 /* Processing of a question sent by the user */
@@ -57,24 +81,59 @@ exports.question_create_post = [
       res.render('question_upload', { user: req.user, errors: errors.array()});
       return;
     } else {
-      //Look through the question database and check if there is one with the
-      //exact same question
-      var question = new Question({
-        question: req.body.text,
-        replies: 0,
-        userID: req.user,
-        userName: req.user.username,
-        moduleCode: req.body.code,
-        semester: req.body.semester,
-        date: Date.now(),
-      });
-
-      //Save it in the database
-      question.save(function (err) {
-        if (err) {
-          return next(err);
+      async.parallel({
+        friends: function(callback) {
+          User.find({"_id": req.user.friends}).exec(callback);
+        },
+        question: function(callback) {
+          Question.find({"question": req.body.text}).exec(callback);
         }
-        res.redirect(question.url);
+      }, function(err, results) {
+        if (err) {
+          next(err);
+        }
+
+        if (results.question) {
+          //The question already exists, we will just render the question page
+          res.redirect(results.question.url);
+        } else {
+          var question = new Question({
+            question: req.body.text,
+            replies: 0,
+            userID: req.user,
+            userName: req.user.username,
+            moduleCode: req.body.code,
+            semester: req.body.semester,
+            date: Date.now(),
+          });
+
+          //Save it in the database
+          question.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+
+            //Create the notifications for the friends
+            for (let friend of friends) {
+              var newNotification = new Notification({
+                user: friend._id,
+                link: question.url,
+                date: Date.now(),
+              });
+
+              newNotification.information = req.user.username +
+                  " asked a question, care to help?";
+
+              newNotification.save(function(err) {
+                if (err) {
+                  next(err);
+                }
+              });
+            }
+
+            res.redirect(question.url);
+          });
+        };
       });
     }
   }

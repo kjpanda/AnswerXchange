@@ -16,6 +16,10 @@ var AnswerSchema = new Schema ({
     date: {type: Date, required: true},
     //The question id that this answer is from
     question: {type: Schema.ObjectId, ref: "Question", required: true},
+    //Votes for the answer
+    vote: {type: Number},
+    //Users who have voted,
+    votedUsers: [Schema.Types.ObjectId],
     //The photos uploaded for this answer
     img: { data: Buffer, mime: String },
 });
@@ -47,6 +51,10 @@ AnswerSchema.virtual("answerUrl").get(function() {
 //Virtual to get the answer post's url
 AnswerSchema.virtual("answerDeleteUrl").get(function() {
   return "/answer/delete/" + this._id;
+});
+
+AnswerSchema.virtual("votingURL").get(function() {
+  return "/answer/" + this._id + "/vote";
 });
 
 module.exports = mongoose.model("Answer", AnswerSchema);

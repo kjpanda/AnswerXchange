@@ -1,7 +1,6 @@
 <div class="jumbotron">
   <% if (locals.questions.length > 0) { %>
-    <h3> Recent Questions: </h3>
-  <% for (let question of questions) { %>
+    <% for (let question of questions) { %>
     <div class="border border-dark rounded p-4 my-2 text-dark">
       <h5>By <%= question.userName %> at <%= question.date_formatted %></h5>
       <a href=<%= question.url %>>
@@ -9,7 +8,6 @@
       </a>
       <h5>Replied by: <%= question.replies %></h5>
     </div>
-
     <% } %>
   <% } else { %>
     <div class="text-darj">

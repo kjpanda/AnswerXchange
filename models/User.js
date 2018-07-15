@@ -12,6 +12,14 @@ var UserSchema = new Schema({
   email: {type: String},
   //The major for the individual, used for personalisation
   major: {type: String},
+  //Friends of the current userID
+  friends: [Schema.ObjectId],
+  //Friends that are pending
+  pendingFriends: [Schema.ObjectId], 
+  //User image
+  img: { data: Buffer, contentType: String },
+  //Points that a user has to purchase notes
+  points: {type: Number, required: true},
 
   local : {
     //The usernmame, should be 8 to 24 characters long

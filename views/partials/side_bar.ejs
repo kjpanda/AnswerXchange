@@ -4,6 +4,7 @@
     <div class = "local-user">
        <img src=<%= user.photo_URI %> class="profile my-2"
           alt="User photo">
+
       <h3 align="middle"> User details </h3>
       <h5> Name: <%= user.local.username %></h5>
       <h5> Email: <%= user.local.email %> </h5>
@@ -21,14 +22,10 @@
       <h5> Email: <%= user.facebook.email %> </h5>
   </div>
   <% } %>
-
 </div>
 
 <style>
-.profile {
-  border-radius: 25%;
-  height: 150px;
-}
+
 .user_details {
   margin-top: 5%;/* Initial buffer to seperate from the navbar */
   width:100%;

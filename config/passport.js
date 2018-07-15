@@ -37,6 +37,7 @@ module.exports = function (passport) {
         if (user) {
           return done (null, false, req.flash('signupMessage', 'That username is already taken'));
         } else {
+
           var newUser = new User();
 
           newUser.username = req.body.username;
@@ -64,12 +65,16 @@ module.exports = function (passport) {
             newUser.local.img.contentType = 'image/png';
           }
 
+          newUser.password = newUser.generateHash(req.body.password);
+          newUser.friends = [];
+          newUser.pendingFriends = [];
           newUser.local.password = newUser.generateHash(req.body.password);
 
           newUser.save(function(err) {
             if (err) {
               //Error due to the email being the same
               if (err.message.indexOf('duplicate key error')) {
+                console.log(err.message);
                 return done (null, false, req.flash('signupMessage', 'That email is already taken'));
               }
               throw err;

@@ -45,3 +45,13 @@ a {
  .post-content{
    font-size: 18px;
  }
+
+ .profile {
+   border-radius: 25%;
+   height: 150px;
+ }
+
+ .smaller-profile {
+   border-radius: 25%;
+   height: 100px;
+ }
