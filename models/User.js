@@ -5,11 +5,11 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   //The usernmame, should be 8 to 24 characters long
-  username: {type: String, min: 8, max: 24, required: true},
+  username: {type: String, min: 8, max: 24},
   //The password for the user,should be 8 to 24 characters long
-  password: {type: String, min: 8, max: 24, required: true},
+  password: {type: String, min: 8, max: 24},
   //The email of the username
-  email: {type: String, required: true, unique: true},
+  email: {type: String},
   //The major for the individual, used for personalisation
   major: {type: String},
   //Friends of the current userID
@@ -20,6 +20,34 @@ var UserSchema = new Schema({
   img: { data: Buffer, contentType: String },
   //Points that a user has to purchase notes
   points: {type: Number, required: true},
+
+  local : {
+    //The usernmame, should be 8 to 24 characters long
+    username: {type: String, min: 8, max: 24},
+    //The password for the user,should be 8 to 24 characters long
+    password: {type: String, min: 8, max: 24},
+    //The email of the username
+    email: {type: String},
+    //The major for the individual, used for personalisation
+    major: {type: String},
+    //User image
+    img: { data: Buffer, contentType: String },
+  },
+  facebook : {
+    id : {type: String },
+    token : {type: String },
+    username : {type: String },
+    email : {type: String },
+    photoLink: { type: String },
+  },
+
+  google: {
+    id : {type: String },
+    token : {type: String },
+    username : {type: String },
+    email : {type: String },
+    photoLink: { type: String },
+  }
 });
 
 //Methods to generate a hash
@@ -29,7 +57,7 @@ UserSchema.methods.generateHash = function (password) {
 
 //Check if the password is valid
 UserSchema.methods.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.local.password);
 };
 
 //Virtual to get the url for the user page
@@ -39,8 +67,8 @@ UserSchema.virtual("edit_page").get(function() {
 
 //Virtual to get the data of the user photo in base64
 UserSchema.virtual("photo_URI").get(function() {
-  return "data:" + this.img.contentType + ";base64," +
-      Buffer.from(this.img.data, 'binary').toString('base64');
+  return "data:" + this.local.img.contentType + ";base64," +
+      Buffer.from(this.local.img.data, 'binary').toString('base64');
 });
 
 module.exports = mongoose.model("User", UserSchema);

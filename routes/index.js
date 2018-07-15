@@ -80,6 +80,17 @@ module.exports = function(passport) {
           failureFlash: true,
       }));
 
+ /*FACEBOOK routes */
+ router.get('/auth/facebook', passport.authenticate('facebook', {
+   scope : ['public_profile', 'email'] //specify the files from facebook we're getting
+ }));
+
+ //handle the callback after facebook has authenticated the user
+ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+   successRedirect: '/home',
+   failureRedirect : '/login',
+ }));
+
   /* GET home page. */
   router.get('/home', isLoggedIn, user_controller.user_home_get);
 
