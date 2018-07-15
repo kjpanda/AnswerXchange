@@ -15,11 +15,9 @@ var UserSchema = new Schema({
   //Friends of the current userID
   friends: [Schema.ObjectId],
   //Friends that are pending
-  pendingFriends: [Schema.ObjectId], 
-  //User image
-  img: { data: Buffer, contentType: String },
+  pendingFriends: [Schema.ObjectId],
   //Points that a user has to purchase notes
-  points: {type: Number, required: true},
+  points: {type: Number},
 
   local : {
     //The usernmame, should be 8 to 24 characters long

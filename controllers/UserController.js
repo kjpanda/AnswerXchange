@@ -338,7 +338,7 @@ exports.accept_friend = function(req, res, next) {
             date: Date.now(),
           });
 
-          friendNotification.information = currUser.username + "is now your friend.";
+          friendNotification.information = currUser.username + " is now your friend.";
 
           friendNotification.save(function(err) {
             if (err) {

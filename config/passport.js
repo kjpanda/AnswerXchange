@@ -41,10 +41,15 @@ module.exports = function (passport) {
           var newUser = new User();
 
           newUser.username = req.body.username;
+          newUser.password = newUser.generateHash(req.body.password);
           newUser.email = req.body.email;
           newUser.major = req.body.major;
+          newUser.friends = [];
+          newUser.pendingFriends = [];
+          newUser.points = 0;
 
           newUser.local.username = req.body.username;
+          newUser.local.password = newUser.generateHash(req.body.password);
           newUser.local.email = req.body.email;
           newUser.local.major = req.body.major;
 
@@ -64,11 +69,6 @@ module.exports = function (passport) {
             newUser.local.img.data = fs.readFileSync(tempPath);
             newUser.local.img.contentType = 'image/png';
           }
-
-          newUser.password = newUser.generateHash(req.body.password);
-          newUser.friends = [];
-          newUser.pendingFriends = [];
-          newUser.local.password = newUser.generateHash(req.body.password);
 
           newUser.save(function(err) {
             if (err) {
@@ -141,6 +141,9 @@ module.exports = function (passport) {
           //set all the facebook information in our user model
           newUser.username = profile.displayName;
           newUser.email = profile.emails[0].value;
+          newUser.friends = [];
+          newUser.pendingFriends = [];
+          newUser.points = 0;
 
           newUser.facebook.id = profile.id; //set the user facebook id
           newUser.facebook.token = token; // save the token that facebook provides to the user
