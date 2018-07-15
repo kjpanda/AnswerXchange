@@ -38,6 +38,11 @@ module.exports = function (passport) {
           return done (null, false, req.flash('signupMessage', 'That username is already taken'));
         } else {
           var newUser = new User();
+
+          newUser.username = req.body.username;
+          newUser.email = req.body.email;
+          newUser.major = req.body.major;
+
           newUser.local.username = req.body.username;
           newUser.local.email = req.body.email;
           newUser.local.major = req.body.major;
@@ -60,6 +65,7 @@ module.exports = function (passport) {
           }
 
           newUser.local.password = newUser.generateHash(req.body.password);
+
           newUser.save(function(err) {
             if (err) {
               //Error due to the email being the same
@@ -128,15 +134,23 @@ module.exports = function (passport) {
           //if there is no user found with that facebook id, create them
           var newUser = new User();
           //set all the facebook information in our user model
+          newUser.username = profile.displayName;
+          newUser.email = profile.emails[0].value;
+
           newUser.facebook.id = profile.id; //set the user facebook id
           newUser.facebook.token = token; // save the token that facebook provides to the user
           newUser.facebook.username = profile.displayName; //retrieve the display name from user facebook
           newUser.facebook.email = profile.emails[0].value; //facebook can return multiple emails so we'll take the first
 
-          //attempt to set default picture, not working yet...
-          var tempPath = process.cwd() + '/public/images/user-1.png'
-          newUser.facebook.img.data = fs.readFileSync(tempPath);
-          newUser.facebook.img.contentType = 'image/png';
+          if (profile.photos[0].value) {
+            newUser.photoLink = profile.photos[0].value;
+            newUser.facebook.photoLink = profile.photos[0].value;
+          } else {
+            var tempPath = process.cwd() + '/public/images/user-1.png';
+            newUser.photoLink = tempPath;
+            newUser.facebook.photoLink = tempPath;
+          }
+
 
           //save our user to the database
           newUser.save(function(err) {

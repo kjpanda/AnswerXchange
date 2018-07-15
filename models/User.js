@@ -4,6 +4,14 @@ var bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
+  //The usernmame, should be 8 to 24 characters long
+  username: {type: String, min: 8, max: 24},
+  //The password for the user,should be 8 to 24 characters long
+  password: {type: String, min: 8, max: 24},
+  //The email of the username
+  email: {type: String},
+  //The major for the individual, used for personalisation
+  major: {type: String},
 
   local : {
     //The usernmame, should be 8 to 24 characters long
@@ -11,19 +19,27 @@ var UserSchema = new Schema({
     //The password for the user,should be 8 to 24 characters long
     password: {type: String, min: 8, max: 24},
     //The email of the username
-    email: {type: String, unique: true},
+    email: {type: String},
     //The major for the individual, used for personalisation
     major: {type: String},
     //User image
-    img: { data: Buffer, contentType: String }
+    img: { data: Buffer, contentType: String },
   },
   facebook : {
-    id : {type: String, min: 8, max: 24},
-    token : {type: String, min: 8, max: 24},
-    username : {type: String, min: 5, max: 24},
-    email : {type: String, min: 8, max: 24},
-    img: {data: Buffer, contentType: String},
+    id : {type: String },
+    token : {type: String },
+    username : {type: String },
+    email : {type: String },
+    photoLink: { type: String },
   },
+
+  google: {
+    id : {type: String },
+    token : {type: String },
+    username : {type: String },
+    email : {type: String },
+    photoLink: { type: String },
+  }
 });
 
 //Methods to generate a hash
@@ -43,8 +59,8 @@ UserSchema.virtual("edit_page").get(function() {
 
 //Virtual to get the data of the user photo in base64
 UserSchema.virtual("photo_URI").get(function() {
-  return "data:" + this.img.contentType + ";base64," +
-      Buffer.from(this.img.data, 'binary').toString('base64');
+  return "data:" + this.local.img.contentType + ";base64," +
+      Buffer.from(this.local.img.data, 'binary').toString('base64');
 });
 
 module.exports = mongoose.model("User", UserSchema);
