@@ -10,6 +10,7 @@
           <hr />
           <% if (locals.friends.length > 0) { %>
             <% for (let friend of friends) { %>
+              <% if (friend.local.username) { %>
                 <div class="border border-primary my-2 p-4" style="overflow: hidden">
                   <div class="float-left">
                     <h5><%= friend.username %></h5>
@@ -28,6 +29,27 @@
                         alt=<%= friend.username %> />
                   </div>
                 </div>
+              <% } else if (friend.facebook.username) { %>
+                <div class="border border-primary my-2 p-4" style="overflow: hidden">
+                  <div class="float-left">
+                    <h5><%= friend.username %></h5>
+                      <!-- Form to add the user as a friend -->
+                      <form action="/friend-add" method="post">
+                        <div>
+                          <input class="form-control" type="hidden" name="friendID"
+                              id="friendID" value=<%= friend._id %> />
+                          <button  type="submit" class="btn btn-primary">Add as friend</button>
+                        </div>
+                      </form>
+                  </div>
+                  <div class="float-right">
+                    <img src=<%= friend.facebook.photoLink %>
+                        class="smaller-profile"
+                        alt=<%= friend.username %> />
+                  </div>
+                </div>
+
+              <% } %>
             <% } %>
           <% } else { %>
             <div class="promo border border-primary p-3" align="center">

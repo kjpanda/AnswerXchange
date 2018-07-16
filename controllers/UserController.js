@@ -16,7 +16,7 @@ exports.user_explore_get = function(req, res, next) {
         Question.find().sort('time').limit(10).exec(callback);
       },
       notifications: function(callback) {
-        Notification.find({ "userID" : req.user._id }).exec(callback);
+        Notification.find({ "user" : req.user._id }).exec(callback);
       },
       pendingFriends: function(callback) {
         User.find({"_id" : req.user.pendingFriends }).exec(callback);
@@ -103,7 +103,7 @@ exports.user_create_get = function(req, res, next) {
 exports.user_update_get = function(req,res, next) {
   async.parallel({
     notifications: function(callback) {
-      Notification.find({"userID" : req.user}).exec(callback);
+      Notification.find({"user" : req.user}).exec(callback);
     },
   }, function (err, results) {
     if (err) {
@@ -226,7 +226,7 @@ exports.user_friends_get = function(req, res, next) {
       User.find({ "_id": req.user.friends }).exec(callback);
     },
     notifications: function(callback) {
-      Notification.find({ "_id" : req.user._id }).exec(callback);
+      Notification.find({ "user" : req.user._id }).exec(callback);
     },
   }, function(err, results) {
     if (err) {
@@ -247,6 +247,8 @@ exports.user_friends_get = function(req, res, next) {
   });
 }
 
+//Function to add a friend, the current user should be in the pending request
+//of the other user.
 exports.user_add_friend = function(req, res, next) {
   async.parallel({
     friend: function(callback) {
@@ -274,6 +276,8 @@ exports.user_add_friend = function(req, res, next) {
   });
 }
 
+//Accepts a friend request, both users should be added to the others friend
+//list and there should be notification sent to both side
 exports.accept_friend = function(req, res, next) {
     async.parallel({
       friend: function(callback) {
@@ -355,7 +359,8 @@ exports.accept_friend = function(req, res, next) {
             currUser.pendingFriends.splice(i, 1);
           }
         }
-
+        
+        //Update thue user once the pending friend is gone
         User.findByIdAndUpdate(req.user._id, currUser, function(err) {
           if (err) {
             next(err);

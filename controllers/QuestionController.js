@@ -11,7 +11,7 @@ exports.search_get = function(req, res, next) {
   async.parallel({
     //Get the notifications for the user
     notifications: function(callback) {
-      Notification.find({"userID": req.user}).exec(callback);
+      Notification.find({"user": req.user}).exec(callback);
     },
   }, function(err, results) {
     if (err) {
@@ -51,7 +51,7 @@ exports.search_post = function(req, res, next) {
 exports.question_create_get = function(req, res, next) {
   async.parallel({
     notifications: function(callback) {
-      Notification.find({"userID": req.user}).exec(callback);
+      Notification.find({"user": req.user}).exec(callback);
     },
   }, function(err, results) {
     if (err) {
@@ -93,7 +93,7 @@ exports.question_create_post = [
           next(err);
         }
 
-        if (results.question) {
+        if (results.question.question) {
           //The question already exists, we will just render the question page
           res.redirect(results.question.url);
         } else {
@@ -108,16 +108,16 @@ exports.question_create_post = [
           });
 
           //Save it in the database
-          question.save(function (err) {
+          question.save(function (err, savedQuestion) {
             if (err) {
               return next(err);
             }
 
             //Create the notifications for the friends
-            for (let friend of friends) {
+            for (let friend of results.friends) {
               var newNotification = new Notification({
                 user: friend._id,
-                link: question.url,
+                link: savedQuestion.url,
                 date: Date.now(),
               });
 
@@ -131,7 +131,7 @@ exports.question_create_post = [
               });
             }
 
-            res.redirect(question.url);
+            res.redirect(savedQuestion.url);
           });
         };
       });
@@ -151,7 +151,7 @@ exports.question_detail_get = function(req, res, next) {
           .exec(callback);
     },
     notifications: function(callback) {
-      Notification.find({'userID' : req.user}).exec(callback);
+      Notification.find({'user' : req.user}).exec(callback);
     }
   }, function(err, results) {
       if (err) {
@@ -188,7 +188,7 @@ exports.question_delete_get = function(req, res, next) {
       Question.findById(req.params.id).exec(callback);
     },
     notifications: function(callback) {
-      Notification.find({"userID" : req.user}).exec(callback)
+      Notification.find({"user" : req.user}).exec(callback)
     },
   }, function(err, results) {
     if (err) return res.status(404).send(err);
