@@ -20,8 +20,17 @@
       <!-- name currently not working -->
       <h5> Name: <%= user.facebook.username %> </h5>
       <h5> Email: <%= user.facebook.email %> </h5>
-  </div>
-  <% } %>
+    </div>
+  <% } else if (user.google.username) { %>
+    <div class = "google-user">
+       <img src=<%= user.google.photoLink %> class="profile my-2"
+          alt="User photo">
+
+      <h3 align="middle"> Google details </h3>
+      <h5> Name: <%= user.google.username %></h5>
+      <h5> Email: <%= user.google.email %> </h5>
+    </div>
+  <% }%>
 </div>
 
 <style>

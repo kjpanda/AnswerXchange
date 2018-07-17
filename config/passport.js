@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FaceBookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var User = require('../models/User.js');
 var configAuth = require('./auth');
 var async = require('async');
@@ -171,4 +172,61 @@ module.exports = function (passport) {
       });
     });
   }));
+
+   //Google Authentication strategy
+    passport.use(new GoogleStrategy({
+
+        clientID        : configAuth.googleAuth.clientID,
+        clientSecret    : configAuth.googleAuth.clientSecret,
+        callbackURL     : configAuth.googleAuth.callbackURL,
+    },
+
+    function(token, refreshToken, profile, done) {
+
+        // make the code asynchronous
+        // User.findOne won't fire until we have all our data back from Google
+        process.nextTick(function() {
+
+            // try to find the user based on their google id
+            User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                if (err)
+                    return done(err);
+
+                if (user) {
+
+                    // if a user is found, log them in
+                    return done(null, user);
+                } else {
+                    // if the user isnt in our database, create a new user
+                    var newUser = new User();
+
+                    //Set the basic user details
+                    newUser.username = profile.displayName;
+                    newUser.email = profile.emails[0].value;
+                    newUser.friends = [];
+                    newUser.pendingFriends = [];
+                    newUser.points = 0;
+
+                    // set all of the relevant information
+                    newUser.google.id    = profile.id;
+                    newUser.google.token = token;
+                    newUser.google.username  = profile.displayName;
+                    newUser.google.email = profile.emails[0].value; // pull the first email
+                    //Change the last 50px to 200px
+                    var imageUrl = profile._json.image.url.substring(0, profile._json.image.url.length - 2) +
+                        "200";
+                    newUser.google.photoLink = imageUrl;
+
+                    // save the user
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+                        return done(null, newUser);
+                    });
+                }
+            });
+        });
+
+    }));
+
 };

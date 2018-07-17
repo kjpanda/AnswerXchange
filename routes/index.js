@@ -80,16 +80,26 @@ module.exports = function(passport) {
           failureFlash: true,
       }));
 
- /*FACEBOOK routes */
- router.get('/auth/facebook', passport.authenticate('facebook', {
-   scope : ['public_profile', 'email'] //specify the files from facebook we're getting
- }));
+  /*FACEBOOK routes */
+  router.get('/auth/facebook', passport.authenticate('facebook', {
+    scope : ['public_profile', 'email'] //specify the files from facebook we're getting
+  }));
 
- //handle the callback after facebook has authenticated the user
- router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-   successRedirect: '/home',
-   failureRedirect : '/login',
- }));
+  //handle the callback after facebook has authenticated the user
+  router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/home',
+    failureRedirect : '/login',
+  }));
+  
+  /* GOOGLE routes */
+  router.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+  
+  // the callback after google has authenticated the user
+  router.get('/auth/google/callback',
+      passport.authenticate('google', {
+        successRedirect : '/home',
+        failureRedirect : '/login'
+      }));
 
   /* GET home page. */
   router.get('/home', isLoggedIn, user_controller.user_home_get);
