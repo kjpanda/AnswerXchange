@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<%- include('partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('partials/navBar') %>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <h1 class="my-2 display-2">Retrieve Notes</h1>
+          <h3> Use points to exchange for notes! </h3>
+          <hr class="my-4">
+          <form action="" method="post">
+            <div class="border border-dark rounded p-4 jumbotron">
+              <%- include('partials/filter_bars') %>
+              <input class="form-control" hidden=true value=user._id name="user"
+                  id="user">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+<%- include('partials/footer') %>
+</html>

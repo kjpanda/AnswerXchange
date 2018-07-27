@@ -4,6 +4,7 @@ var express = require('express');
 var answer_controller = require('../controllers/AnswerController.js');
 var question_controller = require('../controllers/QuestionController.js');
 var user_controller = require('../controllers/UserController.js');
+var notes_controller = require('../controllers/NotesController.js');
 
 var multer  = require('multer');
 
@@ -90,10 +91,10 @@ module.exports = function(passport) {
     successRedirect: '/home',
     failureRedirect : '/login',
   }));
-  
+
   /* GOOGLE routes */
   router.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
-  
+
   // the callback after google has authenticated the user
   router.get('/auth/google/callback',
       passport.authenticate('google', {
@@ -149,6 +150,27 @@ module.exports = function(passport) {
 
   /* Get request for putting all the friends that a user has */
   router.get('/friends', isLoggedIn, user_controller.user_friends_get);
+
+  /*GET request for notes_xchange page*/
+  router.get('/notes_xchange', isLoggedIn, notes_controller.notes_xchange_get);
+
+  /*Get request for notes upload page*/
+  router.get('/notes_upload', isLoggedIn, notes_controller.notes_upload_get);
+
+  /* Post the user request for uploading notes */
+  router.post('/notes_upload',[isLoggedIn, upload.single('notes')], notes_controller.notes_create_post);
+
+  /*Get request for notes retrieve page*/
+  router.get('/notes_retrieve', isLoggedIn, notes_controller.notes_retrieve_get);
+
+  /*Post the user request for retrieving notes */
+  router.post('/notes_retrieve', isLoggedIn, notes_controller.notes_retrieve_post);
+
+  /* Get the notes for the current module */
+  router.get('/notes/:id', notes_controller.notes_detail_get);
+
+  /* Router to upVote for notes */
+  router.post('/notes/:id/vote', isLoggedIn, notes_controller.notes_vote);
 
   return router
 };
