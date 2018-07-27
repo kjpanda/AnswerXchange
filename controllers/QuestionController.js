@@ -19,8 +19,7 @@ exports.search_get = function(req, res, next) {
     }
 
     res.render('search', { user: req.user, notifications: results.notifications });
-  })
-
+  });
 }
 
 /* Search request for the question send by the user */

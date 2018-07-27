@@ -88,7 +88,7 @@ module.exports = function(passport) {
 
   //handle the callback after facebook has authenticated the user
   router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/home',
+    successRedirect: '/',
     failureRedirect : '/login',
   }));
 
@@ -98,12 +98,12 @@ module.exports = function(passport) {
   // the callback after google has authenticated the user
   router.get('/auth/google/callback',
       passport.authenticate('google', {
-        successRedirect : '/home',
+        successRedirect : '/',
         failureRedirect : '/login'
       }));
 
-  /* GET home page. */
-  router.get('/home', isLoggedIn, user_controller.user_home_get);
+  /* GET user page */
+  router.get('/user', isLoggedIn, user_controller.user_home_get);
 
   /* Get the page to update the user's detail */
   router.get('/edit/:id', isLoggedIn, user_controller.user_update_get);

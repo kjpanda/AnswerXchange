@@ -26,53 +26,39 @@
             <% for (let answer of answers) { %>
               <div class="my-4 p-2 border border-dark rounded">
                 <h5>By <%=answer.userName %> answered at <%= answer.date_formatted %></h5>
-                  <div class= "border rounded view overlay p-2 my-2">
                     <!-- Add the images if there are any -->
-                      <% if (answer.img.data) { %>
-                        <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
-                            height="400px">
-                      <% } %>
-                    <div class="row">
-                      <h4 class = "my-4"> <%= answer.answer %> </h4>
-                    </div>
-                    <!--Check if the current user has voted already -->
-                    <% if (JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
-                      <div class="row">
-                        <div class="offset-md-0">
-                          <button type="submit"
-                              class="btn btn-outline-dark btn-sm" disabled>
-                            <i class="fas fa-thumbs-up mx-4"> Like</i>
-                          </button>
-                        </div>
-                      </div>
-                    <% } else { %>
-                      <div class="row">
-                        <div class="offset-md-0">
-                          <form action=<%= answer.votingURL %> method="post" >
-                            <button type="submit"
-                                class="btn btn-outline-dark btn-sm"
-                                name="vote" value="like">
-                              <i class="fas fa-thumbs-up mx-4"> Like</i>
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                    <% } %>
-                    <!-- Give details of the answer -->
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <h5>Votes: <%= answer.vote %></h5>
-                      </div>
-                    </div>
+                <% if (answer.img.data) { %>
+                   <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
+                        height="400px">
+                <% } %>
+                <h4> <%= answer.answer %> </h4>
+                <!-- Give details of the answer -->
+                <h5>Votes: <%= answer.vote %></h5>
 
-                    <% if (user && answer.userID.toString().localeCompare(user._id) == 0) { %>
-                        <div>
-                          <a href =<%= answer.answerUrl%>>
-                            <i class = "material-icons"> mode_edit <h5> Edit </h5> </i>
-                          </a>
-                        </div>
-                    <% } %>
+                 <div>
+                  <!--Check if the current user has voted already -->
+                  <% if (JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
+                       <button type="submit"
+                            class="btn btn-outline-dark btn-sm my-2" disabled>
+                          <i class="fas fa-thumbs-up"> Like</i>
+                       </button>
+                  <% } else { %>
+                      <form action=<%= answer.votingURL %> method="post" >
+                        <button type="submit"
+                            class="btn btn-outline-dark btn-sm my-2"
+                            name="vote" value="like">
+                        <i class="fas fa-thumbs-up"> Like</i>
+                        </button>
+                      </form>
+                 <% } %>
+                 <% if (user && answer.userID.toString().localeCompare(user._id) == 0) { %>
+                  <div>
+                    <a href =<%= answer.answerUrl%>>
+                      <i class = "material-icons"> mode_edit <h5> Edit </h5> </i>
+                    </a>
                   </div>
+                <% } %>
+                </div>
               </div>
             <% } %>
           <% } else { %>

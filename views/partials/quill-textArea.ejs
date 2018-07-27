@@ -46,11 +46,12 @@ form.onsubmit = function(event) {
   for(var i = 0; i < delta.ops.length; i++) {
     if (typeof delta.ops[i].insert === 'string') {
       var tempString = JSON.stringify(delta.ops[i].insert);
-
-      tempString = tempString.replace(/(\r\n|\r|\n)/g, "<br>");
+       
+      tempString = tempString.replace(/\"/g, "").replace(/\\n/g, "\r");
+      //console.log(tempString);
 
       //Trim the last 2 characters
-      text.value += tempString.substring(1, tempString.length - 3);
+      text.value += tempString;
     } else {
       photoData.value = JSON.stringify(delta.ops[i].insert.image);
     }

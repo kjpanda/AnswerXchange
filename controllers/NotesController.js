@@ -18,11 +18,8 @@ exports.notes_upload_get = function(req, res) {
 
  /* Processes the uploading and creation of notes*/
   exports.notes_create_post = [
-    body("text").isLength({min: 1}).trim().withMessage("Answer field is empty."),
 
     (req, res, next) => {
-      const errors = validationResult(req);
-
       var notes = new Notes({
       userName: req.user.username,
       userID: req.user,
@@ -31,8 +28,8 @@ exports.notes_upload_get = function(req, res) {
       semester: req.body.semester,
       vote: 0,
       votedUsers: [],
-
     });
+
     notes.file.data = fs.readFileSync(req.file.path);
     console.log(notes.file.data);
     notes.file.mime = req.body.mimeType;

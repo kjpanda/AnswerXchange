@@ -11,7 +11,7 @@
   <div class="collapse navbar-collapse" id="navbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/home" > <h4> Home </h4> </a>
+        <a class="nav-link" href="/" > <h4> Home </h4> </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/search"> <h4> Search </h4> </a>
@@ -31,7 +31,7 @@
           <li class="dropdown">
             <button class="btn dropbtn dropdown-toggle" role="button"
                 data-toggle="dropdown" >
-                Notifications<span class="caret"></span>
+                Notifications <span class="badge badge-light"><%= locals.notifications.length%></span>
             </button>
             <div class="dropdown-menu">
               <% if (locals.notifications.length > 0) { %>
@@ -50,15 +50,16 @@
           </li>
         <% } %>
         <li class="dropdown">
-          <button class="btn dropbtn" type="button" class="dropdown-button"
-              data-toggle="dropdown"> <h4> <%= user.username %> </h4>
-          <span class="caret"></span></button>
-          <ul class="dropdown-content list-unstyled">
-            <li><a class="dropdown-item" href=<%= user.edit_page %>>
-                  Edit profile
-                </a></li>
-            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-          </ul>
+          <button class="btn dropbtn dropdown-toggle" type="button"
+              data-toggle="dropdown"> <%= user.username %> 
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item-text" href="/user">User Info</a>
+            <a class="dropdown-item-text" href=<%= user.edit_page %>>
+              Edit profile
+            </a>
+            <a class="dropdown-item-text" href="/logout">Logout</a>
+          </div>
         </li>
       <% } %>
   </div>
@@ -79,31 +80,6 @@
 .dropdown {
   position: relative;
   display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #ffffff;
-  width: 120px;
-  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.2);
-
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 10px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-  color: white;
-  background-color: #28549C;
 }
 
 /* Show the dropdown menu on hover */
