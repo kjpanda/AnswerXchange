@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<%- include('partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('partials/navBar') %>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <h1 class="my-2 display-2">Upload Notes</h1>
+          <h3> Earn points by uploading your notes! </h3>
+          <hr class="my-4">
+          <form action="" method="post" enctype="multipart/form-data">
+            <div class="border border-dark rounded p-4 jumbotron">
+              <%- include('partials/filter_bars') %>
+              <form>
+                <div class="form-group">
+                  <label for="notes">Notes Upload</label>
+                  <input type="file" class="form-control-file" id="notes" name="notes">
+                </div>
+              </form>
+              <input class="form-control" hidden=true value=user._id name="user" id="user">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+<%- include('partials/footer') %>
+</html>

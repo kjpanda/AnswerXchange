@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<%- include('partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('partials/navBar') %>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <h1 class="my-2 display-2">Notes Xchange</h1>
+          <h3> Use points to exchange for notes and earn points by uploading yours! </h3>
+          <hr class="my-4">
+          <div class = "jumbotron">
+            <div class="border border-dark rounded p-4 my-2 text-muted">
+              <h4> <a href="/notes_upload/"> Notes Upload </a> </h4>
+            </div>
+            <div class="border border-dark rounded p-4 my-2 text-muted">
+              <h4> <a href="/notes_retrieve/"> Retrieve Notes </a> </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<%- include('partials/footer') %>
+</html>

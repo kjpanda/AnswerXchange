@@ -359,7 +359,7 @@ exports.accept_friend = function(req, res, next) {
             currUser.pendingFriends.splice(i, 1);
           }
         }
-        
+
         //Update thue user once the pending friend is gone
         User.findByIdAndUpdate(req.user._id, currUser, function(err) {
           if (err) {

@@ -38,7 +38,7 @@
                     <!--Check if the current user has voted already -->
                     <% if (JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
                       <div class="row">
-                        <div class="offset-md-6">
+                        <div class="offset-md-0">
                           <button type="submit"
                               class="btn btn-outline-dark btn-sm" disabled>
                             <i class="fas fa-thumbs-up mx-4"> Like</i>
@@ -47,7 +47,7 @@
                       </div>
                     <% } else { %>
                       <div class="row">
-                        <div class="offset-md-6">
+                        <div class="offset-md-0">
                           <form action=<%= answer.votingURL %> method="post" >
                             <button type="submit"
                                 class="btn btn-outline-dark btn-sm"

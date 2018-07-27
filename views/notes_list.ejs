@@ -1,0 +1,55 @@
+<!-- questions, code, semester -->
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('partials/navBar') %>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <h1 class="display-2">Notes for module: </h1>
+          <h3 class = "my-2"> <%= code %>, semester: <%= semester %></h3>
+          <hr class="my-2">
+          <div class = "jumbotron">
+            <% for (let Notes of notes) { %>
+              <div class="border border-dark rounded p-4 my-2 text-muted">
+                <h5>By <%= Notes.userName %></h5>
+                <a href= <%= Notes.url %> target="_blank"> <h4 class = "my-4"> <%= Notes.fileName %> </a> </h4>
+              <!--Check if the current user has voted already -->
+              <% if (JSON.stringify(Notes.votedUsers).includes(JSON.stringify(user._id))) { %>
+                <div class="row">
+                  <div class="offset-md-0">
+                    <button type="submit"
+                        class="btn btn-outline-dark btn-sm" disabled>
+                      <i class="fas fa-thumbs-up mx-4"> Like</i>
+                    </button>
+                </div>
+              </div>
+              <% } else { %>
+                <div class="row">
+                  <div class="offset-md-0">
+                    <form action=<%= Notes.votingURL %> method="post" >
+                      <button type="submit"
+                          class="btn btn-outline-dark btn-sm"
+                          name="vote" value="like">
+                        <i class="fas fa-thumbs-up mx-4"> Like</i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              <% } %>
+              <!-- Give details of the answer -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <h5>Votes: <%= Notes.vote %></h5>
+                </div>
+              </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  <%- include('partials/footer') %>
+</html>
