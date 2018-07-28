@@ -109,8 +109,9 @@ const { sanitizeBody } = require('express-validator/filter');
                 if (err) {
                   return next(err);
                 }
-
+                
                 //Redirect to the next page
+                console.log(updatedUser);
                 res.redirect('/question/' + req.params.id);
               }) ;
             });

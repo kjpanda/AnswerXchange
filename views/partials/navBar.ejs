@@ -55,9 +55,11 @@
           </button>
           <div class="dropdown-menu">
             <a class="dropdown-item-text" href="/user">User Info</a>
-            <a class="dropdown-item-text" href=<%= user.edit_page %>>
-              Edit profile
-            </a>
+            <% if (locals.user && !user.facebook.username && !user.google.username) { %>
+              <a class="dropdown-item-text" href=<%= user.edit_page %>>
+                Edit profile
+              </a>
+            <% } %>
             <a class="dropdown-item-text" href="/logout">Logout</a>
           </div>
         </li>

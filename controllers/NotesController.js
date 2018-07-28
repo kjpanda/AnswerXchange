@@ -21,14 +21,14 @@ exports.notes_upload_get = function(req, res) {
 
     (req, res, next) => {
       var notes = new Notes({
-      userName: req.user.username,
-      userID: req.user,
-      date: Date.now(),
-      moduleCode: req.body.code,
-      semester: req.body.semester,
-      vote: 0,
-      votedUsers: [],
-    });
+        userName: req.user.username,
+        userID: req.user,
+        date: Date.now(),
+        moduleCode: req.body.code,
+        semester: req.body.semester,
+        vote: 0,
+        votedUsers: [],
+      });
 
     notes.file.data = fs.readFileSync(req.file.path);
     console.log(notes.file.data);
@@ -69,9 +69,9 @@ exports.notes_upload_get = function(req, res) {
       }
 
       //If result cannot be found
-      if (results.notes == null) {
+      if (results.notes.length == 0) {
         res.render('notes_retrieve', {user: req.user,
-        errors: "There are no notes uploaded for this module yet."});
+          errors: "There are no notes uploaded for this module yet."});
       }
 
       console.log("notes found");
@@ -83,6 +83,13 @@ exports.notes_upload_get = function(req, res) {
     }
 
     exports.notes_detail_get = function (req, res, next) {
+      //Check that the user has enough points to proceed
+      if (req.user.points < 5) {
+        res.render('notes_retrieve', {user: req.user,
+            errors: "You have insufficient points."});
+        return;
+      }
+
       async.parallel({
         notes: function(callback) {
           Notes.findById(req.params.id).exec(callback);
@@ -109,8 +116,14 @@ exports.notes_upload_get = function(req, res) {
           }
         });
         //Find the user that downloaded the notes and decrease his points
-        User.findById(results.notes.userID, function(err, user) {
+        //User is expected to have enough points at this point
+        User.findById(req.user._id, function(err, user) {
           user.points -=5;
+          User.findByIdAndUpdate(req.user._id, user, function(err, updatedUser) {
+            if (err) {
+              next(err);
+            }
+          }); 
         });
       });
     };
@@ -152,16 +165,15 @@ exports.notes_upload_get = function(req, res) {
               if (err) {
                 return next(err);
               }
-            }) ;
+              //Find the answer and update it once it is done
+              Notes.findByIdAndUpdate(req.params.id, newNotes, function(err, updatedNotes) {
+                if (err) {
+                  next (err);
+                }
+                res.redirect('/notes_list/');
+              });
+            });
           });
-        });
-
-        //Find the answer and update it once it is done
-        Notes.findByIdAndUpdate(req.params.id, newNotes, function(err, updatedNotes) {
-          if (err) {
-            next (err);
-          }
-          res.redirect('/notes_list/');
         });
       });
     };

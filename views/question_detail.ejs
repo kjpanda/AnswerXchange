@@ -10,7 +10,7 @@
         <h4>Question by <%= question.userName %></h4>
         <!-- The user is able to delete the question if it is his
             question -->
-        <% if (user) { %>
+        <% if (locals.user) { %>
           <% if (user._id.toString().localeCompare(question.userID) == 0) { %>
             <a href=<%= question.deleteURL %>>
               <div>
@@ -37,12 +37,12 @@
 
                  <div>
                   <!--Check if the current user has voted already -->
-                  <% if (JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
+                  <% if (locals.user && JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
                        <button type="submit"
                             class="btn btn-outline-dark btn-sm my-2" disabled>
                           <i class="fas fa-thumbs-up"> Like</i>
                        </button>
-                  <% } else { %>
+                  <% } else if (locals.user){ %>
                       <form action=<%= answer.votingURL %> method="post" >
                         <button type="submit"
                             class="btn btn-outline-dark btn-sm my-2"
@@ -51,7 +51,7 @@
                         </button>
                       </form>
                  <% } %>
-                 <% if (user && answer.userID.toString().localeCompare(user._id) == 0) { %>
+                 <% if (locals.user && answer.userID.toString().localeCompare(user._id) == 0) { %>
                   <div>
                     <a href =<%= answer.answerUrl%>>
                       <i class = "material-icons"> mode_edit <h5> Edit </h5> </i>
