@@ -36,13 +36,13 @@
             <div class="dropdown-menu">
               <% if (locals.notifications.length > 0) { %>
                 <% for (let notification of notifications) { %>
-                  <a  class="dropdown-item-text" href=<%= notification.link %>>
+                  <a  class="dropdown-item" href=<%= notification.link %>>
                     <%= notification.information %>
                   </a>
                   <div class="dropdown-divider"></div>
                 <% } %>
               <% } else { %>
-                  <span class="dropdown-item-text" href="#">
+                  <span class="dropdown-item" href="#">
                     There are no new notifications.
                   </span>
               <% } %>
@@ -54,13 +54,13 @@
               data-toggle="dropdown"> <%= user.username %> 
           </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item-text" href="/user">User Info</a>
+            <a class="dropdown-item" href="/user">User Info</a>
             <% if (locals.user && !user.facebook.username && !user.google.username) { %>
-              <a class="dropdown-item-text" href=<%= user.edit_page %>>
+              <a class="dropdown-item" href=<%= user.edit_page %>>
                 Edit profile
               </a>
             <% } %>
-            <a class="dropdown-item-text" href="/logout">Logout</a>
+            <a class="dropdown-item" href="/logout">Logout</a>
           </div>
         </li>
       <% } %>

@@ -1,0 +1,17 @@
+<div class="jumbotron">
+  <% if (locals.questions.length > 0) { %>
+    <% for (let question of questions) { %>
+    <div class="border border-dark rounded p-4 my-2 text-dark">
+      <h5>By <%= question.userName %> at <%= question.date_formatted %></h5>
+      <a href=<%= question.url %>>
+        <h4 class = "my-4"><%= question.question %></h4>
+      </a>
+      <h5>Replied by: <%= question.replies %></h5>
+    </div>
+    <% } %>
+  <% } else { %>
+    <div class="text-darj">
+      <h4>There are no questions available at this moment.</h4>
+    </div>
+  <% } %>
+</div>
