@@ -12,9 +12,11 @@
           <hr class="my-4">
           <form action="" method="post">
             <div class="border border-dark rounded p-4 jumbotron">
-              <%- include('partials/filter_bars') %>
-              <input class="form-control" hidden=true value=user._id name="user"
-                  id="user">
+              <div class="form-group ">
+                  <label for="code">Module Code:</label>
+                  <input type="text" class="form-control" id="code"
+                      name="code" required=true>
+              </div>
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </form>

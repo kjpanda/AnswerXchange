@@ -58,9 +58,14 @@ exports.notes_upload_get = function(req, res) {
 
   /* Post request to get notes for module */
   exports.notes_retrieve_post = function(req, res, next) {
+      res.redirect('/notes_list/' + req.body.code);
+  }
+
+  /* Get request to get the list from the url */
+  exports.notes_list_get = function(req, res, next) {
     async.parallel({
       notes: function(callback) {
-        Notes.find({"moduleCode": req.body.code, "semester": req.body.semester})
+        Notes.find({"moduleCode": req.params.code})
           .exec(callback);
       },
     }, function(err, results) {
@@ -78,7 +83,7 @@ exports.notes_upload_get = function(req, res) {
       //found notes, default takes the first set of notes Found
       //to add voting function later and take the set of notes with the most upvotes
       res.render('notes_list', {user: req.user, notes: results.notes,
-        code: req.body.code, semester: req.body.semester});
+        code: req.params.code, semester: req.params.semester});
       });
     }
 
@@ -123,7 +128,7 @@ exports.notes_upload_get = function(req, res) {
             if (err) {
               next(err);
             }
-          }); 
+          });
         });
       });
     };
@@ -158,7 +163,7 @@ exports.notes_upload_get = function(req, res) {
               user: results.notes.userID,
               date: Date.now(),
             });
-            notification.information = req.user.username + "voted for your notes!";
+            notification.information = req.user.username + " voted for your notes!";
             notification.link = results.notes.url;
 
             notification.save(function(err) {
@@ -170,7 +175,8 @@ exports.notes_upload_get = function(req, res) {
                 if (err) {
                   next (err);
                 }
-                res.redirect('/notes_list/');
+
+                res.redirect('/notes_list/' + results.notes.moduleCode);
               });
             });
           });

@@ -109,9 +109,8 @@ const { sanitizeBody } = require('express-validator/filter');
                 if (err) {
                   return next(err);
                 }
-                
+
                 //Redirect to the next page
-                console.log(updatedUser);
                 res.redirect('/question/' + req.params.id);
               }) ;
             });
@@ -194,7 +193,7 @@ exports.answer_update_post = [
         answer.save(function(err) {
           if (err) return res.status(404).send(err);
           console.log('Answer successfully updated!');
-        /* Get question and answer details */
+          /* Get question and answer details */
           res.redirect('/question/' + answer.question);
         });
       });
@@ -271,14 +270,14 @@ exports.answer_vote = function(req, res, next) {
           user: results.answer.userID,
           date: Date.now(),
         });
-        notification.information = req.user.username + "voted for your answer!";
+        notification.information = req.user.username + " voted for your answer!";
         notification.link = '/question/' + results.answer.question;
 
         notification.save(function(err) {
           if (err) {
             return next(err);
           }
-        }) ;
+        });
       });
     });
 

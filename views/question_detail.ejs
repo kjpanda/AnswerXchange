@@ -28,8 +28,8 @@
                 <h5>By <%=answer.userName %> answered at <%= answer.date_formatted %></h5>
                     <!-- Add the images if there are any -->
                 <% if (answer.img.data) { %>
-                   <img src=<%= answer.picture_data %> alt="Error in picture" width="400px"
-                        height="400px">
+                   <img src=<%= answer.picture_data %> alt="Error in picture" width="300px"
+                        height="300px">
                 <% } %>
                 <h4> <%= answer.answer %> </h4>
                 <!-- Give details of the answer -->
@@ -37,12 +37,12 @@
 
                  <div>
                   <!--Check if the current user has voted already -->
-                  <% if (locals.user && JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
+                  <% if (user && JSON.stringify(answer.votedUsers).includes(JSON.stringify(user._id))) { %>
                        <button type="submit"
                             class="btn btn-outline-dark btn-sm my-2" disabled>
                           <i class="fas fa-thumbs-up"> Like</i>
                        </button>
-                  <% } else if (locals.user){ %>
+                  <% } else { %>
                       <form action=<%= answer.votingURL %> method="post" >
                         <button type="submit"
                             class="btn btn-outline-dark btn-sm my-2"
@@ -51,7 +51,8 @@
                         </button>
                       </form>
                  <% } %>
-                 <% if (locals.user && answer.userID.toString().localeCompare(user._id) == 0) { %>
+
+                 <% if (user && answer.userID.toString().localeCompare(user._id) == 0) { %>
                   <div>
                     <a href =<%= answer.answerUrl%>>
                       <i class = "material-icons"> mode_edit <h5> Edit </h5> </i>

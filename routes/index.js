@@ -166,8 +166,11 @@ module.exports = function(passport) {
   /*Post the user request for retrieving notes */
   router.post('/notes_retrieve', isLoggedIn, notes_controller.notes_retrieve_post);
 
+  /* Get the results for the notes in the current module */
+  router.get('/notes_list/:code', isLoggedIn, notes_controller.notes_list_get);
+
   /* Get the notes for the current module */
-  router.get('/notes/:id', notes_controller.notes_detail_get);
+  router.get('/notes/:id', isLoggedIn, notes_controller.notes_detail_get);
 
   /* Router to upVote for notes */
   router.post('/notes/:id/vote', isLoggedIn, notes_controller.notes_vote);
